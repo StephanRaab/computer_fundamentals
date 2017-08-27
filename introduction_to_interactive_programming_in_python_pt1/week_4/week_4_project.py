@@ -110,17 +110,12 @@ HALF_PAD_HEIGHT = PAD_HEIGHT / 2
 LEFT = False
 RIGHT = True
 ball_pos = [WIDTH / 2, HEIGHT / 2]
+score1 = 0
+score2 = 0
 
 horiz_vel = random.randrange(120, 240)
 vert_vel = random.randrange(60, 180)
-ball_vel = [horiz_vel, vert_vel]
-
-test_vel = [2, 3]
-
-
-def tick():
-    global time
-    time += 1
+ball_vel = [horiz_vel / 20, vert_vel / 20]
 
 
 # initialize ball_pos and ball_vel for new bal in middle of table
@@ -146,21 +141,22 @@ def draw(canvas):
     canvas.draw_line([WIDTH - PAD_WIDTH, 0], [WIDTH - PAD_WIDTH, HEIGHT], 1, "White")
 
     # update ball
-    ball_pos[0] += test_vel[0]
-    ball_pos[1] += test_vel[1]
+    ball_pos[0] += ball_vel[0]
+    ball_pos[1] += ball_vel[1]
     if ball_pos[1] >= HEIGHT - BALL_RADIUS:
-        test_vel[1] = - test_vel[1]
-        ball_pos[1] += test_vel[1]
+        ball_vel[1] = - ball_vel[1]
+        ball_pos[1] += ball_vel[1]
     elif ball_pos[1] <= BALL_RADIUS:
-        test_vel[1] = - test_vel[1]
-        ball_pos[1] += test_vel[1]
+        ball_vel[1] = - ball_vel[1]
+        ball_pos[1] += ball_vel[1]
     elif ball_pos[0] <= PAD_WIDTH + BALL_RADIUS:
-        test_vel[0] = - test_vel[0]
-        ball_pos[0] += test_vel[0]
+        ball_vel[0] = - ball_vel[0]
+        ball_pos[0] += ball_vel[0]
+        score2 += 1
     elif ball_pos[0] >= WIDTH - PAD_WIDTH - BALL_RADIUS:
-        test_vel[0] = - test_vel[0]
-        ball_pos[0] += test_vel[0]
-
+        ball_vel[0] = - ball_vel[0]
+        ball_pos[0] += ball_vel[0]
+        score1 += 1
     # draw ball
     canvas.draw_circle(ball_pos, BALL_RADIUS, 2, "white", "white")
 
@@ -171,6 +167,8 @@ def draw(canvas):
     # determine whether paddle and ball collide
 
     # draw scores
+    canvas.draw_text(str(score1), [WIDTH / 2.5, 75], 60, "White")
+    canvas.draw_text(str(score2), [WIDTH / 1.75, 75], 60, "White")
 
 
 def keydown(key):
