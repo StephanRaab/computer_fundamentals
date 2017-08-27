@@ -123,13 +123,16 @@ ball_vel = [horiz_vel / 20, vert_vel / 20]
 def spawn_ball(direction):
     global ball_pos, ball_vel  # these are vectors stored as lists
     ball_pos = [WIDTH / 2, HEIGHT / 2]
+    if direction == RIGHT:
+        ball_vel = [5, -2]
+    else:
+        ball_vel = [-5, -2]
 
 
 # define event handlers
 def new_game():
     global paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel  # these are numbers
     global score1, score2  # these are ints
-    spawn_ball(RIGHT)
 
 
 def draw(canvas):
@@ -153,10 +156,13 @@ def draw(canvas):
         ball_vel[0] = - ball_vel[0]
         ball_pos[0] += ball_vel[0]
         score2 += 1
+        spawn_ball(RIGHT)
     elif ball_pos[0] >= WIDTH - PAD_WIDTH - BALL_RADIUS:
         ball_vel[0] = - ball_vel[0]
         ball_pos[0] += ball_vel[0]
         score1 += 1
+        spawn_ball(LEFT)
+
     # draw ball
     canvas.draw_circle(ball_pos, BALL_RADIUS, 2, "white", "white")
 
