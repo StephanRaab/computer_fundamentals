@@ -22,7 +22,8 @@ vert_vel = random.randrange(60, 180)
 ball_vel = [horiz_vel / 20, vert_vel / 20]
 paddle1_vel = [0, 0]
 paddle2_vel = [0, 0]
-vel_incr = 5
+vel_incr = 7
+ball_vel_incr = 1.1
 
 paddle1_top_pos = [PAD_WIDTH / 2, 0]
 paddle1_bottom_pos = [PAD_WIDTH / 2, PAD_HEIGHT]
@@ -65,14 +66,18 @@ def draw(canvas):
     elif ball_pos[1] <= BALL_RADIUS:
         ball_vel[1] = - ball_vel[1]
         ball_pos[1] += ball_vel[1]
+    elif ball_pos[0] <= PAD_WIDTH + BALL_RADIUS and ball_pos[1] >= paddle1_top_pos[1] and ball_pos[1] <= \
+            paddle1_bottom_pos[1]:
+        ball_vel[0] = - ball_vel[0] * ball_vel_incr
+        ball_pos[0] += ball_vel[0] * ball_vel_incr
     elif ball_pos[0] <= PAD_WIDTH + BALL_RADIUS:
-        ball_vel[0] = - ball_vel[0]
-        ball_pos[0] += ball_vel[0]
         score2 += 1
         spawn_ball(RIGHT)
+    elif ball_pos[0] >= WIDTH - PAD_WIDTH - BALL_RADIUS and ball_pos[1] >= paddle2_top_pos[1] and ball_pos[1] <= \
+            paddle2_bottom_pos[1]:
+        ball_vel[0] = - ball_vel[0] * ball_vel_incr
+        ball_pos[0] += ball_vel[0] * ball_vel_incr
     elif ball_pos[0] >= WIDTH - PAD_WIDTH - BALL_RADIUS:
-        ball_vel[0] = - ball_vel[0]
-        ball_pos[0] += ball_vel[0]
         score1 += 1
         spawn_ball(LEFT)
 
@@ -90,7 +95,9 @@ def draw(canvas):
     paddle2 = canvas.draw_line(paddle2_top_pos, paddle2_bottom_pos, PAD_WIDTH, "White")
 
     # determine whether paddle and ball collide
-
+    if ball_pos[0] <= PAD_WIDTH + BALL_RADIUS and ball_pos[1] <= paddle1_top_pos[1]:
+        ball_vel[0] = - ball_vel[0]
+        ball_pos[0] += ball_vel[0]
 
     # draw scores
     canvas.draw_text(str(score1), [WIDTH / 2.5, 75], 60, "White")
