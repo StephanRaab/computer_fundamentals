@@ -2,34 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5063ef6-2116-471d-85c5-6ebd1365f9a6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week5/week5_a_exec.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/.idea/introduction_to_interactive_programming_in_python_pt1.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_0/week_0_mini-project.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/1a_functions/functions.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/1a_functions/more_operations.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/1a_functions/practice_ex.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/1a_functions/week 1a - practice exercises for functions.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/1b_logic_and_conditionals/week 1b - practice execercises.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/mystical octosphere.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/rock_paper_scissor_lizard_spock.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_1/week_1_tips.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week 2a.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week 2b.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week2_exercises.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week2_guess_the_number.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week2_rpsls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_2/week_2_calculator.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_3/stopwatch.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_3/stopwatch_format.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_3/stopwatch_v2.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_3/week3a_practice.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_3/week3b_practice.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_4/week_4_a.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_4/week_4_b.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/week_4/week_4_project.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/.idea/workspace.xml" afterPath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python_pt1/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week4_project.py" afterPath="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week4_project.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,9 +17,21 @@
       <file leaf-file-name="week5_a_exec.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week5/week5_a_exec.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+            <state relative-caret-position="54">
+              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="6" selection-end-column="61" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="week4_project.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week4_project.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="114" column="64" lean-forward="false" selection-start-line="114" selection-start-column="64" selection-end-line="114" selection-end-column="64" />
+              <folding>
+                <element signature="e#45#61#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -66,6 +52,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week5/week5_a_exec.py" />
+        <option value="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week_4_project.py" />
+        <option value="$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week4_project.py" />
       </list>
     </option>
   </component>
@@ -108,13 +96,13 @@
               <item name="computer_fundamentals" type="b2602c69:ProjectViewProjectNode" />
               <item name="computer_fundamentals" type="462c0819:PsiDirectoryNode" />
               <item name="introduction_to_interactive_programming_in_python" type="462c0819:PsiDirectoryNode" />
-              <item name="week5" type="462c0819:PsiDirectoryNode" />
+              <item name="week4" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="computer_fundamentals" type="b2602c69:ProjectViewProjectNode" />
               <item name="computer_fundamentals" type="462c0819:PsiDirectoryNode" />
               <item name="introduction_to_interactive_programming_in_python" type="462c0819:PsiDirectoryNode" />
-              <item name="week_4" type="462c0819:PsiDirectoryNode" />
+              <item name="week5" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="computer_fundamentals" type="b2602c69:ProjectViewProjectNode" />
@@ -186,6 +174,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'master' of https://github.com/StephanRaab/computer_fundamentals&#10;&#10;# Conflicts:&#10;#&#9;introduction_to_interactive_programming_in_python/week4/week4_project.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/StephanRaab/computer_fundamentals&#10;&#10;# Conflicts:&#10;#&#9;introduction_to_interactive_programming_in_python/week4/week4_project.py" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
@@ -239,10 +231,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week5/week5_a_exec.py">
+    <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week_4_project.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="327">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <caret line="131" column="37" lean-forward="true" selection-start-line="131" selection-start-column="37" selection-end-line="131" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week4/week4_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="114" column="64" lean-forward="false" selection-start-line="114" selection-start-column="64" selection-end-line="114" selection-end-column="64" />
+          <folding>
+            <element signature="e#45#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/introduction_to_interactive_programming_in_python/week5/week5_a_exec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="6" selection-end-column="61" />
           <folding />
         </state>
       </provider>

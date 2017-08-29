@@ -114,7 +114,6 @@ def draw(canvas):
     canvas.draw_text(str(score1), [WIDTH / 2.5, 75], 60, color)
     canvas.draw_text(str(score2), [WIDTH / 1.75, 75], 60, color)
 
-
 def keydown(key):
     global paddle1_vel, paddle2_vel, vel_incr
     if key == simplegui.KEY_MAP["w"]:
