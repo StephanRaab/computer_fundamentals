@@ -1,5 +1,4 @@
 # Echo mouse click in console
-
 ###################################################
 try:
     import simplegui
@@ -23,9 +22,7 @@ frame.set_mouseclick_handler(click)
 print("======================================================")
 
 # Circle clicking problem
-
 ###################################################
-# Student should enter code below
 
 import math
 
@@ -63,5 +60,69 @@ frame.set_draw_handler(draw)
 
 # start frame
 frame.start()
+
+print("======================================================")
+
+# Day to number problem
+###################################################
+
+day_list = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+
+def day_to_number(day):
+    global day_list
+    return day_list.index(day)
+
+
+###################################################
+# Test data
+
+print day_to_number("Sunday")
+print day_to_number("Monday")
+print day_to_number("Tuesday")
+print day_to_number("Wednesday")
+print day_to_number("Thursday")
+print day_to_number("Friday")
+print day_to_number("Saturday")
+
+###################################################
+# Sample output
+
+# 0
+# 1
+# 2
+# 3
+# 4
+# 5
+# 6
+
+print("======================================================")
+
+# String list joining problem
+###################################################
+
+def string_list_join(string_list):
+    string = ""
+    for i in range(len(string_list)):
+        string += string_list[i]
+    return string
+
+
+###################################################
+# Test data
+
+print(string_list_join([]))
+print(string_list_join(["pig", "dog"]))
+print(string_list_join(["spam", " and ", "eggs"]))
+print(string_list_join(["a", "b", "c", "d"]))
+
+
+###################################################
+# Output
+
+#
+#pigdog
+#spam and eggs
+#abcd
 
 print("======================================================")
