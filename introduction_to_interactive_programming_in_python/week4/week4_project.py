@@ -107,8 +107,8 @@ def draw(canvas):
         paddle2_bottom_pos[1] = HEIGHT
 
     # draw paddles
-    paddle1 = canvas.draw_line(paddle1_top_pos, paddle1_bottom_pos, PAD_WIDTH, color)
-    paddle2 = canvas.draw_line(paddle2_top_pos, paddle2_bottom_pos, PAD_WIDTH, color)
+    canvas.draw_line(paddle1_top_pos, paddle1_bottom_pos, PAD_WIDTH, color)
+    canvas.draw_line(paddle2_top_pos, paddle2_bottom_pos, PAD_WIDTH, color)
 
     # draw scores
     canvas.draw_text(str(score1), [WIDTH / 2.5, 75], 60, color)
