@@ -126,7 +126,8 @@ print(string_list_join(["a", "b", "c", "d"]))
 #abcd
 
 print("======================================================")
-# Ball grid slution
+
+# Ball grid solution
 ###################################################
 
 BALL_RADIUS = 20
@@ -146,6 +147,44 @@ def draw(canvas):
 # create frame and register handlers
 frame = simplegui.create_frame("Ball grid", WIDTH, HEIGHT)
 frame.set_draw_handler(draw)
+
+# start frame
+frame.start()
+
+print("======================================================")
+
+# Polyline drawing problem
+
+###################################################
+
+import math
+
+polyline = []
+
+
+# define mouseclick handler
+def click(pos):
+    polyline.append(pos)
+
+
+# button to clear canvas
+def clear():
+    global polyline
+    polyline = []
+
+
+# define draw
+def draw(canvas):
+    if len(polyline) > 0:
+        canvas.draw_circle(polyline[0], 1, 1, "White", "White")
+        canvas.draw_polyline(polyline, 2, 'white')
+
+
+# create frame and register handlers
+frame = simplegui.create_frame("Echo click", 300, 200)
+frame.set_mouseclick_handler(click)
+frame.set_draw_handler(draw)
+frame.add_button("Clear", clear)
 
 # start frame
 frame.start()
