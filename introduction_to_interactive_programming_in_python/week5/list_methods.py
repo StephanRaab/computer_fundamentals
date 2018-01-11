@@ -12,7 +12,7 @@ def clear():
 # Handler for new task
 def new(task):
     tasks.append(task)
-    
+   
 # Handler for remove number
 def remove_num(tasknum):
     n = int(tasknum)
@@ -23,6 +23,7 @@ def remove_num(tasknum):
 def remove_name(taskname):
     if taskname in tasks:
         tasks.remove(taskname)
+        #tasks.pop(tasks.index(taskname))
     
 # Handler to draw on canvas
 def draw(canvas):
@@ -31,7 +32,7 @@ def draw(canvas):
         pos = 30 * n
         canvas.draw_text(str(n) + ": " + task, [5, pos], 24, "White")
         n += 1
-        
+
 # Create a frame and assign callbacks to event handlers
 frame = simplegui.create_frame("Task List", 600, 400)
 frame.add_input("New task:", new, 200)
