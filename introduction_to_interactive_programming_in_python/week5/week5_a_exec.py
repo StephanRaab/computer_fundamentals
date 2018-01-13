@@ -70,7 +70,6 @@ day_list = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 
 
 def day_to_number(day):
-    global day_list
     return day_list.index(day)
 
 
