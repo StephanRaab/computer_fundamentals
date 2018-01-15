@@ -10,22 +10,19 @@ CARD_BORDER = "red"
 
 WIDTH = TOTALCARDS * 50
 HEIGHT = 100
-
-cardnum = range(0,TOTALCARDS//2)
-cardnum2 = range(0,TOTALCARDS//2)
-cardnum.extend(cardnum2)
-random.shuffle(cardnum)
-exposed_list = []
-comparison = []
 turns = 0
-
-print "Cards: ", cardnum
 
 # helper function to initialize globals
 def new_game():
-    global state
+    global state, cardnum, exposed_list, comparison
     state = 0
-    pass  
+    cardnum = range(0,TOTALCARDS//2)
+    cardnum2 = range(0,TOTALCARDS//2)
+    cardnum.extend(cardnum2)
+    random.shuffle(cardnum)
+    exposed_list = []
+    comparison = []
+    print "Cards:", cardnum
 
 # define event handlers
 def mouseclick(pos):
