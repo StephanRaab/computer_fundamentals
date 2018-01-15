@@ -12,8 +12,6 @@ def square_list2(numbers):
 print square_list1([4, 5, -2])
 print square_list2([4, 5, -2])
 
-
-
 def is_in_range(ball):
     """Returns whether the ball is in the desired range.  """
     return ball[0] >= 0 and ball[0] <= 100 and ball[1] >= 0 and ball[1] <= 100

@@ -24,7 +24,6 @@ frame = simplegui.create_frame("Memory states", 200, 100)
 frame.add_button("Restart", new_game, 200)
 frame.add_button("Simulate mouse click", buttonclick, 200)
 
-
 # register event handlers
 frame.set_draw_handler(draw)
 
