@@ -20,6 +20,10 @@ class Employee:
     def set_raise_amt(cls, amount):
         cls.raise_amount = amount
 
+    @classmethod
+    def from_str(cls, emp_str):
+        first, last, pay = emp_str.split('-')
+
 emp1 = Employee("John", "Doe", 42000)
 emp2 = Employee("Steve", "Smith", 52000)
 
