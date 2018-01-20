@@ -62,7 +62,6 @@ def draw(canvas):
         def draw_cards():
             canvas.draw_polygon([(card_pos, 0), (card_pos + 50, 0),
                          (card_pos + 50,HEIGHT), (card_pos, HEIGHT)], 2, CARD_BORDER, CARD_COLOR)
-  
         if state == 0:
             draw_cards()    
         if state == 1:        
@@ -73,7 +72,6 @@ def draw(canvas):
                 draw_cards()
         init_card += 50
         card_pos += 50
-
 
 # create frame and add a button and labels
 frame = simplegui.create_frame("Memory", WIDTH, HEIGHT)
