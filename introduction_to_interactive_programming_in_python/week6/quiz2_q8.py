@@ -3,7 +3,7 @@ slow_death = 0.4
 fast_wumpus = 1
 fast_death = 0.3
 
-count = 2
+count = 1
 total_years = 57
 
 while count < total_years:
