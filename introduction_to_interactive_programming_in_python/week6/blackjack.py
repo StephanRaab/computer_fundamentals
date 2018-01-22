@@ -51,6 +51,7 @@ class Card:
         canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
         
 # define hand class
+class Hand:
     def __init__(self):
         # create Hand object
         self.hand_list = []
@@ -61,12 +62,10 @@ class Card:
 
     def add_card(self, card):
         # add a card object to a hand
-        self.hand_list.append(card.suit + card.rank)
-#        self.hand_list.append(card)    
+#        self.hand_list.append(card.suit + card.rank)
+        self.hand_list.append(card)    
     
     def get_value(self):
-        # count aces as 1, if the hand has an ace, then add 10 to hand value
-        # if it doesn't bust compute the value of the hand, see Blackjack video
         value = 0
         ace_count = 0
         for card in self.hand_list:
@@ -80,8 +79,12 @@ class Card:
             if value + 10 <= 21:
                 return value + 10
             else:
-                return value
-                   
+                return value     
+   
+    def draw(self, canvas, pos):
+        # draw a hand on the canvas, use the draw method for cards        
+        pass
+       
 # define deck class 
 class Deck:
     def __init__(self):
@@ -114,7 +117,8 @@ def deal():
     player_hand = Hand()
     player_hand.add_card(deck.deal_card())
     player_hand.add_card(deck.deal_card())
-    print "Player", player_hand    
+    print "Player", player_hand
+    print player_hand.get_value()
     
     dealer_hand = Hand()
     dealer_hand.add_card(deck.deal_card())
@@ -124,11 +128,22 @@ def deal():
     in_play = True
 
 def hit():
-    pass	# replace with your code below
- 
+    global in_play, deck, player_hand, dealer_hand, score
     # if the hand is in play, hit the player
+    if in_play:
+        player_hand.add_card(deck.deal_card())
+        player_value = player_hand.get_value()
+        if player_value < 21:
+            print "Player", player_hand
+            print player_hand.get_value()
+        else:
+            # if busted, assign a message to outcome, update in_play and score
+            in_play = False
+            print "You have busted"
+            score -= 1
+    
+    
    
-    # if busted, assign a message to outcome, update in_play and score
        
 def stand():
     pass	# replace with your code below
