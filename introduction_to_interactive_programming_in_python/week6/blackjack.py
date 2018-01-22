@@ -51,21 +51,17 @@ class Card:
                     CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(self.suit))
         canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
        
-# define hand class
 class Hand:
     def __init__(self):
-        # create Hand object
         self.hand_list = []
 
     def __str__(self):
-        # return a string representation of a hand
         string = "Hand contains "
         for card in self.hand_list:
             string += str(card) + " "
         return string
 
     def add_card(self, card):
-        # add a card object to a hand
         self.hand_list.append(card)    
     
     def get_value(self):
@@ -85,17 +81,14 @@ class Hand:
                 return value     
    
     def draw(self, canvas, ypos):
-        # draw a hand on the canvas, use the draw method for cards  
         x_incr = 75
         x_start = 50
         for card in self.hand_list:
             card.draw(canvas, [x_start, ypos])
             x_start += 75
            
-# define deck class 
 class Deck:
     def __init__(self):
-        # create a Deck object
         self.deck_list = []
         for suit in SUITS:
             for rank in RANKS:
@@ -103,19 +96,14 @@ class Deck:
         return self.deck_list
     
     def shuffle(self):
-        # shuffle the deck 
-        # use random.shuffle()
         return random.shuffle(self.deck_list)
 
     def deal_card(self):
-        # deal a card object from the deck
         return self.deck_list.pop()
 
     def __str__(self):
-        # return a string representing the deck
         return "Deck contains " + str(self.deck_list)
 
-#define event handlers for buttons
 def deal():
     global outcome, in_play, deck, player_hand, dealer_hand, outcome, score, win_or_lose
     if in_play:
@@ -124,6 +112,7 @@ def deal():
 
     deck = Deck()
     outcome = "Hit or Stand?"
+    win_or_lose = ''
     deck.shuffle()
 
     player_hand = Hand()
@@ -138,12 +127,10 @@ def deal():
 
 def hit():
     global in_play, deck, player_hand, dealer_hand, score, outcome, win_or_lose
-    # if the hand is in play, hit the player
     if in_play:
         player_hand.add_card(deck.deal_card())
         player_value = player_hand.get_value()
         if player_value > 21:
-            # if busted, assign a message to outcome, update in_play and score
             in_play = False
             outcome = "New deal?"
             win_or_lose = "You lost."
@@ -151,7 +138,6 @@ def hit():
            
 def stand():
     global in_play, score, outcome, win_or_lose
-    # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
     if in_play:
         dealer_value = dealer_hand.get_value()
         player_value = player_hand.get_value()
@@ -177,9 +163,7 @@ def stand():
     else:
         outcome = "You have busted"     
 
-# draw handler    
 def draw(canvas):
-    # test to make sure that card.draw works, replace with your code below
     canvas.draw_text("Blackjack", (200, 50), 40, "black", 'sans-serif')
     canvas.draw_text("Score: " + str(score), (450, 50), 24, "black", 'sans-serif')
     canvas.draw_text("Dealer", (50, 100), 24, "black", 'sans-serif')
