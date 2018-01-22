@@ -58,8 +58,11 @@ class Hand:
         self.hand_list = []
 
     def __str__(self):
-        # return a string representation of a hand            
-        return "Hand contains " + str(self.hand_list)
+        # return a string representation of a hand
+        string = "Hand contains "
+        for card in self.hand_list:
+            string += str(card) + " "
+        return string
 
     def add_card(self, card):
         # add a card object to a hand
@@ -70,9 +73,9 @@ class Hand:
         value = 0
         ace_count = 0
         for card in self.hand_list:
-            if card[1] == 'A':
+            if card.get_rank() == 'A':
                 ace_count += 1
-            value += VALUES[card[1]]
+            value += VALUES[card.get_rank()]
             
         if ace_count < 1:
             return value
@@ -82,10 +85,16 @@ class Hand:
             else:
                 return value     
    
-    def draw(self, canvas, pos):
-        # draw a hand on the canvas, use the draw method for cards        
-        pass
-       
+    def draw(self, canvas, ypos):
+        # draw a hand on the canvas, use the draw method for cards  
+        x_incr = 75
+        x_start = 50
+        for card in self.hand_list:
+            card.draw(canvas, [x_start, ypos])
+            x_start += 75
+#        card = Card("H", "A")
+
+           
 # define deck class 
 class Deck:
     def __init__(self):
@@ -93,7 +102,7 @@ class Deck:
         self.deck_list = []
         for suit in SUITS:
             for rank in RANKS:
-                self.deck_list.append(suit + rank)
+                self.deck_list.append(Card(suit,rank))
         return self.deck_list
     
     def shuffle(self):
@@ -182,22 +191,19 @@ def stand():
                 print "player:", player_value
                 print "dealer:", dealer_value
     else:
-        print "You have busted"
-        
-    # assign a message to outcome, update in_play and score
+        print "You have busted"     
 
 # draw handler    
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
-    canvas.draw_text("Blackjack", (200, 50), 40, "black", 'serif')
-    canvas.draw_text(str(score), (500, 50), 40, "black", 'serif')
-    canvas.draw_text("Dealer", (50, 100), 24, "black", 'serif')
-    canvas.draw_text(win_or_lose, (200, 100), 24, "black", "serif")
-    canvas.draw_text("Player", (50, 300), 24, "black", 'serif')
-    canvas.draw_text(outcome, (200, 300), 24, "black", 'serif')
-    card = Card("S", "A")
-    card.draw(canvas, [300, 300])
-    
+    canvas.draw_text("Blackjack", (200, 50), 40, "black", 'sans-serif')
+    canvas.draw_text(str(score), (500, 50), 40, "black", 'sans-serif')
+    canvas.draw_text("Dealer", (50, 100), 24, "black", 'sans-serif')
+    canvas.draw_text(win_or_lose, (200, 100), 24, "black", "sans-serif")
+    canvas.draw_text("Player", (50, 300), 24, "black", 'sans-serif')
+    canvas.draw_text(outcome, (200, 300), 24, "black", 'sans-serif')        
+    player_hand.draw(canvas, 320)
+    dealer_hand.draw(canvas, 120)
 
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
@@ -209,10 +215,6 @@ frame.add_button("Hit",  hit, 200)
 frame.add_button("Stand", stand, 200)
 frame.set_draw_handler(draw)
 
-
 # get things rolling
 deal()
 frame.start()
-
-
-# remember to review the gradic rubric
