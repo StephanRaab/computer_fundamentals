@@ -15,6 +15,7 @@ card_back = simplegui.load_image("http://storage.googleapis.com/codeskulptor-ass
 # initialize some useful global variables
 in_play = False
 outcome = ""
+win_or_lose = ""
 score = 0
 deck = []
 player_hand = []
@@ -110,8 +111,9 @@ class Deck:
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play, deck, player_hand, dealer_hand
+    global outcome, in_play, deck, player_hand, dealer_hand, outcome
     deck = Deck()
+    outcome = "Hit or Stand?"
     deck.shuffle()
     
     player_hand = Hand()
@@ -145,7 +147,7 @@ def hit():
             score -= 1
            
 def stand():
-    global in_play
+    global in_play, score, outcome, win_or_lose
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
     if in_play:
         dealer_value = dealer_hand.get_value()
@@ -155,6 +157,9 @@ def stand():
             dealer_value = dealer_hand.get_value()
         if dealer_value > 21:
             in_play = False
+            score += 1
+            outcome = "New deal?"
+            win_or_lose = "You won!"
             print "Dealer busted"
             print "Player wins"
             print "player:", player_value
@@ -162,11 +167,17 @@ def stand():
         else:
             if dealer_value > player_value or dealer_value == player_value:
                 in_play = False
+                score -= 1
+                outcome = "New deal?"
+                win_or_lose = "You lost."
                 print "Dealer wins"
                 print "player:", player_value
                 print "dealer:", dealer_value
             else:
                 in_play = False
+                score += 1
+                outcome = "New deal?"
+                win_or_lose = "You won!"
                 print "Player wins"
                 print "player:", player_value
                 print "dealer:", dealer_value
@@ -178,10 +189,15 @@ def stand():
 # draw handler    
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
-    
+    canvas.draw_text("Blackjack", (200, 50), 40, "black", 'serif')
+    canvas.draw_text(str(score), (500, 50), 40, "black", 'serif')
+    canvas.draw_text("Dealer", (50, 100), 24, "black", 'serif')
+    canvas.draw_text(win_or_lose, (200, 100), 24, "black", "serif")
+    canvas.draw_text("Player", (50, 300), 24, "black", 'serif')
+    canvas.draw_text(outcome, (200, 300), 24, "black", 'serif')
     card = Card("S", "A")
     card.draw(canvas, [300, 300])
-
+    
 
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
