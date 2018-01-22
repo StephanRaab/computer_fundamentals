@@ -16,6 +16,9 @@ card_back = simplegui.load_image("http://storage.googleapis.com/codeskulptor-ass
 in_play = False
 outcome = ""
 score = 0
+deck = []
+player_hand = []
+dealer_hand = []
 
 # define globals for cards
 SUITS = ('C', 'S', 'H', 'D')
@@ -59,8 +62,9 @@ class Hand:
 
     def add_card(self, card):
         # add a card object to a hand
-        self.hand_list.append(card.suit + card.rank)
-        
+#        self.hand_list.append(card.suit + card.rank)
+        self.hand_list.append(card)    
+    
     def get_value(self):
         # count aces as 1, if the hand has an ace, then add 10 to hand value
         # if it doesn't bust compute the value of the hand, see Blackjack video
@@ -95,10 +99,20 @@ class Deck:
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play
-
-    # your code goes here
+    global outcome, in_play, deck, player_hand, dealer_hand
+    deck = Deck()
+    deck.shuffle()
     
+    player_hand = Hand()
+    player_hand.add_card(deck.deal_card())
+    player_hand.add_card(deck.deal_card())
+    print "Player", player_hand    
+    
+    dealer_hand = Hand()
+    dealer_hand.add_card(deck.deal_card())
+    dealer_hand.add_card(deck.deal_card())
+    print "Dealer", dealer_hand
+
     in_play = True
 
 def hit():
