@@ -50,7 +50,7 @@ class Card:
         card_loc = (CARD_CENTER[0] + CARD_SIZE[0] * RANKS.index(self.rank), 
                     CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(self.suit))
         canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
-        
+       
 # define hand class
 class Hand:
     def __init__(self):
@@ -92,7 +92,9 @@ class Hand:
         for card in self.hand_list:
             card.draw(canvas, [x_start, ypos])
             x_start += 75
-#        card = Card("H", "A")
+        canvas.draw_image(card_back, [0,0], CARD_BACK_SIZE, [CARD_BACK_CENTER[0], CARD_BACK_CENTER[1]], CARD_BACK_SIZE)
+     
+#   card = Card("H", "A")
 
            
 # define deck class 
@@ -128,31 +130,24 @@ def deal():
     player_hand = Hand()
     player_hand.add_card(deck.deal_card())
     player_hand.add_card(deck.deal_card())
-    print "Player", player_hand
-    print player_hand.get_value()
     
     dealer_hand = Hand()
     dealer_hand.add_card(deck.deal_card())
     dealer_hand.add_card(deck.deal_card())
-    print "Dealer", dealer_hand
-    print dealer_hand.get_value()
 
     in_play = True
 
 def hit():
-    global in_play, deck, player_hand, dealer_hand, score
+    global in_play, deck, player_hand, dealer_hand, score, outcome, win_or_lose
     # if the hand is in play, hit the player
     if in_play:
         player_hand.add_card(deck.deal_card())
         player_value = player_hand.get_value()
-        if player_value <= 21:
-            print "Player", player_hand
-            print player_hand.get_value()
-        else:
+        if player_value > 21:
             # if busted, assign a message to outcome, update in_play and score
             in_play = False
-            print "You have busted"
-            print "Player:", player_value
+            outcome = "New deal?"
+            win_or_lose = "You lost."
             score -= 1
            
 def stand():
@@ -169,29 +164,19 @@ def stand():
             score += 1
             outcome = "New deal?"
             win_or_lose = "You won!"
-            print "Dealer busted"
-            print "Player wins"
-            print "player:", player_value
-            print "dealer:", dealer_value
         else:
             if dealer_value > player_value or dealer_value == player_value:
                 in_play = False
                 score -= 1
                 outcome = "New deal?"
                 win_or_lose = "You lost."
-                print "Dealer wins"
-                print "player:", player_value
-                print "dealer:", dealer_value
             else:
                 in_play = False
                 score += 1
                 outcome = "New deal?"
                 win_or_lose = "You won!"
-                print "Player wins"
-                print "player:", player_value
-                print "dealer:", dealer_value
     else:
-        print "You have busted"     
+        outcome = "You have busted"     
 
 # draw handler    
 def draw(canvas):
@@ -203,7 +188,10 @@ def draw(canvas):
     canvas.draw_text("Player", (50, 300), 24, "black", 'sans-serif')
     canvas.draw_text(outcome, (200, 300), 24, "black", 'sans-serif')        
     player_hand.draw(canvas, 320)
-    dealer_hand.draw(canvas, 120)
+    if in_play:
+        dealer_hand.draw(canvas, 120)
+    else:
+        dealer_hand.draw(canvas, 120)
 
 # initialization frame
 frame = simplegui.create_frame("Blackjack", 600, 600)
