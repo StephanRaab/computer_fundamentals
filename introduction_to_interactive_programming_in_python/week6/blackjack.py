@@ -92,10 +92,6 @@ class Hand:
         for card in self.hand_list:
             card.draw(canvas, [x_start, ypos])
             x_start += 75
-        canvas.draw_image(card_back, [0,0], CARD_BACK_SIZE, [CARD_BACK_CENTER[0], CARD_BACK_CENTER[1]], CARD_BACK_SIZE)
-     
-#   card = Card("H", "A")
-
            
 # define deck class 
 class Deck:
@@ -190,6 +186,8 @@ def draw(canvas):
     player_hand.draw(canvas, 320)
     if in_play:
         dealer_hand.draw(canvas, 120)
+        canvas.draw_image(card_back, (CARD_BACK_SIZE[0]/2, CARD_BACK_SIZE[1]/2),
+                          CARD_BACK_SIZE, (85, 168), CARD_BACK_SIZE)
     else:
         dealer_hand.draw(canvas, 120)
 
