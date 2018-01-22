@@ -51,7 +51,6 @@ class Card:
         canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
         
 # define hand class
-class Hand:
     def __init__(self):
         # create Hand object
         self.hand_list = []
@@ -62,18 +61,27 @@ class Hand:
 
     def add_card(self, card):
         # add a card object to a hand
-#        self.hand_list.append(card.suit + card.rank)
-        self.hand_list.append(card)    
+        self.hand_list.append(card.suit + card.rank)
+#        self.hand_list.append(card)    
     
     def get_value(self):
         # count aces as 1, if the hand has an ace, then add 10 to hand value
         # if it doesn't bust compute the value of the hand, see Blackjack video
-        pass     
-   
-    def draw(self, canvas, pos):
-        # draw a hand on the canvas, use the draw method for cards        
-        pass
-       
+        value = 0
+        ace_count = 0
+        for card in self.hand_list:
+            if card[1] == 'A':
+                ace_count += 1
+            value += VALUES[card[1]]
+            
+        if ace_count < 1:
+            return value
+        else:
+            if value + 10 <= 21:
+                return value + 10
+            else:
+                return value
+                   
 # define deck class 
 class Deck:
     def __init__(self):
