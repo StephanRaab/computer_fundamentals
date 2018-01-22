@@ -66,7 +66,6 @@ class Hand:
 
     def add_card(self, card):
         # add a card object to a hand
-#        self.hand_list.append(card.suit + card.rank)
         self.hand_list.append(card)    
     
     def get_value(self):
@@ -118,19 +117,23 @@ class Deck:
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play, deck, player_hand, dealer_hand, outcome
+    global outcome, in_play, deck, player_hand, dealer_hand, outcome, score, win_or_lose
+    if in_play:
+        score -=1
+        win_or_lose = "You lose."
+
     deck = Deck()
     outcome = "Hit or Stand?"
     deck.shuffle()
-    
+
     player_hand = Hand()
     player_hand.add_card(deck.deal_card())
     player_hand.add_card(deck.deal_card())
-    
+
     dealer_hand = Hand()
     dealer_hand.add_card(deck.deal_card())
     dealer_hand.add_card(deck.deal_card())
-
+        
     in_play = True
 
 def hit():
@@ -178,7 +181,7 @@ def stand():
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
     canvas.draw_text("Blackjack", (200, 50), 40, "black", 'sans-serif')
-    canvas.draw_text(str(score), (500, 50), 40, "black", 'sans-serif')
+    canvas.draw_text("Score: " + str(score), (450, 50), 24, "black", 'sans-serif')
     canvas.draw_text("Dealer", (50, 100), 24, "black", 'sans-serif')
     canvas.draw_text(win_or_lose, (200, 100), 24, "black", "sans-serif")
     canvas.draw_text("Player", (50, 300), 24, "black", 'sans-serif')
