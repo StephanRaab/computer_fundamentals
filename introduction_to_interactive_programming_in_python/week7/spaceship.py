@@ -6,6 +6,7 @@ import random
 # globals for user interface
 WIDTH = 800
 HEIGHT = 600
+SCREENSIZE = [WIDTH,HEIGHT]
 score = 0
 lives = 3
 time = 0
@@ -99,40 +100,67 @@ class Ship:
         self.image_center = info.get_center()
         self.image_size = info.get_size()
         self.radius = info.get_radius()
+        self.c = 1.5
     
+    def move_dimension(dimension, position, vector):
+#    """Moves the position component by the given vector component in 1D toroidal space."""
+        position[dimension] = (position[dimension] + vector[dimension]) % SCREEN_SIZE[dimension]
+
+    def move(position, vector):
+#    """Moves the position by the given vector in 2D toroidal space."""
+        move_dimension(0, position, vector)
+        move_dimension(1, position, vector)
+        
     def thrusters_on(self):
-        # if up arrow is down, thrust = True
-        # self.image_center = thrust image
-        # sound = ship_thrust_sound
         self.thrust = True
         self.image_center = [135, 45]
         ship_thrust_sound.play()
-    
+
+    def fly_ship(self):
+        if self.thrust:
+            self.vel[0] += angle_to_vector(self.angle)[0]
+            self.vel[1] += angle_to_vector(self.angle)[1]
+
     def thrusters_off(self):
         self.thrust = False
         self.image_center = [45, 45]
         ship_thrust_sound.rewind()
+        self.vel[0] = 0
+        self.vel[1] = 0
     
-    def rotate_cw(self, vel):
-        if self.thrust:
-            self.vel[0] += angle_to_vector(self.angle)[0]
-            self.vel[1] += angle_to_vector(self.angle)[1]
-        self.angle_vel = vel
+    def rotate_cw(self, vel_incr):
+        self.angle_vel = vel_incr
     
-    def rotate_ccw(self, vel):
-        self.angle_vel = vel
+    def rotate_ccw(self, vel_incr):
+        self.angle_vel = vel_incr
     
     def shoot(self):
         pass
     
     def draw(self,canvas):
-        canvas.draw_circle(self.pos, self.radius, 1, "White", "White")
+#        canvas.draw_circle(self.pos, self.radius, 1, "White", "White")
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
         self.angle += self.angle_vel
- 
-    
+        
+#        update position
+        self.pos[0] += self.vel[0]
+        self.pos[1] += self.vel[1]
+        
+#        update friction
+        self.vel[0] *= (1 - self.c)
+        self.vel[1] *= (1 - self.c)
+        
+#        wrap around the screen
+        if self.pos[0] > WIDTH:
+            self.pos[0] -= WIDTH
+        elif self.pos[0] < 0:
+            self.pos[0] += WIDTH
+        if self.pos[1] > HEIGHT:
+            self.pos[1] -= HEIGHT
+        elif self.pos[1] < 0:
+            self.pos[1] += HEIGHT
     
 # Sprite class
 class Sprite:
@@ -158,8 +186,8 @@ class Sprite:
 
     def update(self):
         self.angle += self.angle_vel
-        self.pos[0] += self.vel[0]
-        self.pos[1] += self.vel[1]        
+#        self.pos[0] += self.vel[0]
+#        self.pos[1] += self.vel[1]        
 
            
 def draw(canvas):
@@ -188,12 +216,13 @@ def draw(canvas):
 def keydown(key):
     if key == simplegui.KEY_MAP["up"]:
         my_ship.thrusters_on()
+        my_ship.fly_ship()
     elif key == simplegui.KEY_MAP["left"]:
-        my_ship.rotate_ccw(-0.06)
+        my_ship.rotate_ccw(-0.08)
     elif key == simplegui.KEY_MAP["right"]:
-        my_ship.rotate_cw(0.06)
+        my_ship.rotate_cw(0.08)
     elif key == simplegui.KEY_MAP["space"]:
-        pass
+        print("You shot the sherrif")
 
 def keyup(key):
     if key == simplegui.KEY_MAP["up"]:
@@ -202,8 +231,6 @@ def keyup(key):
         my_ship.rotate_ccw(0)
     elif key == simplegui.KEY_MAP["right"]:
         my_ship.rotate_cw(0)
-    elif key == simplegui.KEY_MAP["space"]:
-        pass
         
 # timer handler that spawns a rock    
 def rock_spawner():
