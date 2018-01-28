@@ -100,14 +100,29 @@ class Ship:
         self.image_size = info.get_size()
         self.radius = info.get_radius()
     
-    def thrust(self):
-        # if up arrow is down, thrust bool is True, else false
-        # self.image should be thrust image
-        # sound should be ship_thrust_sound
-        pass
+    def thrusters_on(self):
+        # if up arrow is down, thrust = True
+        # self.image_center = thrust image
+        # sound = ship_thrust_sound
+        self.thrust = True
+        self.image_center = [135, 45]
+        ship_thrust_sound.play()
     
-    def rotate_ship(self):
-        # if arrow is down, rotate, if up, stop
+    def thrusters_off(self):
+        self.thrust = False
+        self.image_center = [45, 45]
+        ship_thrust_sound.rewind()
+    
+    def rotate_cw(self, vel):
+        if self.thrust:
+            self.vel[0] += angle_to_vector(self.angle)[0]
+            self.vel[1] += angle_to_vector(self.angle)[1]
+        self.angle_vel = vel
+    
+    def rotate_ccw(self, vel):
+        self.angle_vel = vel
+    
+    def shoot(self):
         pass
     
     def draw(self,canvas):
@@ -115,7 +130,8 @@ class Ship:
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
-        pass
+        self.angle += self.angle_vel
+ 
     
     
 # Sprite class
@@ -167,7 +183,28 @@ def draw(canvas):
     my_ship.update()
     a_rock.update()
     a_missile.update()
-            
+    
+
+def keydown(key):
+    if key == simplegui.KEY_MAP["up"]:
+        my_ship.thrusters_on()
+    elif key == simplegui.KEY_MAP["left"]:
+        my_ship.rotate_ccw(-0.06)
+    elif key == simplegui.KEY_MAP["right"]:
+        my_ship.rotate_cw(0.06)
+    elif key == simplegui.KEY_MAP["space"]:
+        pass
+
+def keyup(key):
+    if key == simplegui.KEY_MAP["up"]:
+        my_ship.thrusters_off()
+    elif key == simplegui.KEY_MAP["left"]:
+        my_ship.rotate_ccw(0)
+    elif key == simplegui.KEY_MAP["right"]:
+        my_ship.rotate_cw(0)
+    elif key == simplegui.KEY_MAP["space"]:
+        pass
+        
 # timer handler that spawns a rock    
 def rock_spawner():
     pass
@@ -182,6 +219,8 @@ a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image,
 
 # register handlers
 frame.set_draw_handler(draw)
+frame.set_keydown_handler(keydown)
+frame.set_keyup_handler(keyup)
 
 timer = simplegui.create_timer(1000.0, rock_spawner)
 
