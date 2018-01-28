@@ -98,29 +98,12 @@ class Ship:
         self.image_center = info.get_center()
         self.image_size = info.get_size()
         self.radius = info.get_radius()
-        self.c = 1.5
-    
-    def move_dimension(dimension, position, vector):
-#    """Moves the position component by the given vector component in 1D toroidal space."""
-        position[dimension] = (position[dimension] + vector[dimension]) % SCREEN_SIZE[dimension]
-
-    def move(position, vector):
-#    """Moves the position by the given vector in 2D toroidal space."""
-        move_dimension(0, position, vector)
-        move_dimension(1, position, vector)
+        self.c = 0.005
         
     def thrusters_on(self):
         self.thrust = True
         self.image_center = [135, 45]
         ship_thrust_sound.play()
-
-    def fly_ship(self):
-        if self.thrust:
-            self.vel[0] += angle_to_vector(self.angle)[0]
-            self.vel[1] += angle_to_vector(self.angle)[1]
-        else:
-            self.vel[0] *= (1 - self.c)
-            self.vel[1] *= (1 - self.c)
 
     def thrusters_off(self):
         self.thrust = False
@@ -128,10 +111,10 @@ class Ship:
         ship_thrust_sound.rewind()
         
     def rotate_cw(self):
-        self.angle_vel = 0.08
+        self.angle_vel = 0.1
     
     def rotate_ccw(self):
-        self.angle_vel = -0.08
+        self.angle_vel = -0.1
         
     def stop_rotation(self):
         self.angle_vel = 0
@@ -145,13 +128,16 @@ class Ship:
     def update(self):
         self.angle += self.angle_vel
         
+        if self.thrust:
+            self.vel[0] += angle_to_vector(self.angle)[0] / 10
+            self.vel[1] += angle_to_vector(self.angle)[1] / 10
+        else:
+            self.vel[0] *= (1 - self.c)
+            self.vel[1] *= (1 - self.c)
+        
 #        update position
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]
-        
-#        update friction
-#        self.vel[0] *= (1 - self.c)
-#        self.vel[1] *= (1 - self.c)
         
 #        wrap around the screen
         if self.pos[0] > WIDTH:
@@ -217,7 +203,7 @@ def draw(canvas):
 def keydown(key):
     if key == simplegui.KEY_MAP["up"]:
         my_ship.thrusters_on()
-        my_ship.fly_ship()
+#        my_ship.fly_ship()
     elif key == simplegui.KEY_MAP["left"]:
         my_ship.rotate_ccw()
     elif key == simplegui.KEY_MAP["right"]:
