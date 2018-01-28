@@ -6,7 +6,6 @@ import random
 # globals for user interface
 WIDTH = 800
 HEIGHT = 600
-SCREENSIZE = [WIDTH,HEIGHT]
 score = 0
 lives = 3
 time = 0
@@ -37,7 +36,6 @@ class ImageInfo:
     def get_animated(self):
         return self.animated
 
-    
 # art assets created by Kim Lathrop, may be freely re-used in non-commercial projects, please credit Kim
     
 # debris images - debris1_brown.png, debris2_brown.png, debris3_brown.png, debris4_brown.png
@@ -120,25 +118,28 @@ class Ship:
         if self.thrust:
             self.vel[0] += angle_to_vector(self.angle)[0]
             self.vel[1] += angle_to_vector(self.angle)[1]
+        else:
+            self.vel[0] *= (1 - self.c)
+            self.vel[1] *= (1 - self.c)
 
     def thrusters_off(self):
         self.thrust = False
         self.image_center = [45, 45]
         ship_thrust_sound.rewind()
-        self.vel[0] = 0
-        self.vel[1] = 0
+        
+    def rotate_cw(self):
+        self.angle_vel = 0.08
     
-    def rotate_cw(self, vel_incr):
-        self.angle_vel = vel_incr
-    
-    def rotate_ccw(self, vel_incr):
-        self.angle_vel = vel_incr
+    def rotate_ccw(self):
+        self.angle_vel = -0.08
+        
+    def stop_rotation(self):
+        self.angle_vel = 0
     
     def shoot(self):
         pass
     
     def draw(self,canvas):
-#        canvas.draw_circle(self.pos, self.radius, 1, "White", "White")
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
@@ -149,8 +150,8 @@ class Ship:
         self.pos[1] += self.vel[1]
         
 #        update friction
-        self.vel[0] *= (1 - self.c)
-        self.vel[1] *= (1 - self.c)
+#        self.vel[0] *= (1 - self.c)
+#        self.vel[1] *= (1 - self.c)
         
 #        wrap around the screen
         if self.pos[0] > WIDTH:
@@ -218,9 +219,9 @@ def keydown(key):
         my_ship.thrusters_on()
         my_ship.fly_ship()
     elif key == simplegui.KEY_MAP["left"]:
-        my_ship.rotate_ccw(-0.08)
+        my_ship.rotate_ccw()
     elif key == simplegui.KEY_MAP["right"]:
-        my_ship.rotate_cw(0.08)
+        my_ship.rotate_cw()
     elif key == simplegui.KEY_MAP["space"]:
         print("You shot the sherrif")
 
@@ -228,9 +229,9 @@ def keyup(key):
     if key == simplegui.KEY_MAP["up"]:
         my_ship.thrusters_off()
     elif key == simplegui.KEY_MAP["left"]:
-        my_ship.rotate_ccw(0)
+        my_ship.stop_rotation()
     elif key == simplegui.KEY_MAP["right"]:
-        my_ship.rotate_cw(0)
+        my_ship.stop_rotation()
         
 # timer handler that spawns a rock    
 def rock_spawner():
