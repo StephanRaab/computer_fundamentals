@@ -230,7 +230,7 @@ def rock_spawner():
     global a_rock
     random_vel = [random.randrange(-10, 10), random.randrange(-10, 10)]
     random_pos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
-    random_angle_vel = float(random.randrange(-5.0, 5.0)) / 100
+    random_angle_vel = float(random.randrange(-5.0, 5.0, 2)) / 100
     a_rock = Sprite(random_pos, random_vel, 0, random_angle_vel, asteroid_image, asteroid_info)
     
 # initialize frame
