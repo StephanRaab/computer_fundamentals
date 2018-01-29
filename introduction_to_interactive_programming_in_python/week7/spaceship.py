@@ -123,8 +123,8 @@ class Ship:
         global a_missile
         missile_pos = [self.pos[0] + angle_to_vector(self.angle)[0] * 40, self.pos[1] + angle_to_vector(self.angle)[1] * 40]
         missile_vel = [0,0]
-        missile_vel[0] += self.vel[0] + angle_to_vector(self.angle)[0] * 10
-        missile_vel[1] += self.vel[1] + angle_to_vector(self.angle)[1] * 10
+        missile_vel[0] += self.vel[0] + (angle_to_vector(self.angle)[0] * 10)
+        missile_vel[1] += self.vel[1] + (angle_to_vector(self.angle)[1] * 10)
         a_missile = Sprite(missile_pos, missile_vel, self.angle, self.angle_vel, missile_image, missile_info, missile_sound)
         missile_sound.play()
     
@@ -230,7 +230,7 @@ def rock_spawner():
     global a_rock
     random_vel = [random.randrange(-10, 10), random.randrange(-10, 10)]
     random_pos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
-    random_angle_vel = float(random.randrange(-5.0, 15.0)) / 100
+    random_angle_vel = float(random.randrange(-5.0, 5.0)) / 100
     a_rock = Sprite(random_pos, random_vel, 0, random_angle_vel, asteroid_image, asteroid_info)
     
 # initialize frame
