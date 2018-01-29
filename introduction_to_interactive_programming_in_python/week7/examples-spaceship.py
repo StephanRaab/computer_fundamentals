@@ -2,7 +2,6 @@
 
 import simplegui
 
-
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
         self.center = center
@@ -58,4 +57,3 @@ class Ship:
 
     def update(self):
         pass
-    
