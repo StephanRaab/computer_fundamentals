@@ -168,13 +168,13 @@ class Sprite:
             sound.play()
    
     def draw(self, canvas):
-        canvas.draw_circle(self.pos, self.radius, 1, "Red", "Red")
+#        canvas.draw_circle(self.pos, self.radius, 1, "Red", "Red")
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
         self.angle += self.angle_vel
-#        self.pos[0] += self.vel[0]
-#        self.pos[1] += self.vel[1]        
+        self.pos[0] += self.vel[0]
+        self.pos[1] += self.vel[1]        
 
            
 def draw(canvas):
@@ -221,7 +221,11 @@ def keyup(key):
         
 # timer handler that spawns a rock    
 def rock_spawner():
-    pass
+    global a_rock
+    random_vel = [random.randrange(-10, 10), random.randrange(-10, 10)]
+    random_pos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
+    a_rock = Sprite(random_pos, random_vel, 0, 0.01, asteroid_image, asteroid_info)
+    
     
 # initialize frame
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
