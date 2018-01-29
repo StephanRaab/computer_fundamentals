@@ -120,7 +120,16 @@ class Ship:
         self.angle_vel = 0
     
     def shoot(self):
-        pass
+        global a_missile
+        missile_pos = [self.pos[0] + angle_to_vector(self.angle)[0] * 40, self.pos[1] + angle_to_vector(self.angle)[1] * 40]
+        missile_vel = [0,0]
+        missile_vel[0] += self.vel[0] + angle_to_vector(self.angle)[0] * 10
+        missile_vel[1] += self.vel[1] + angle_to_vector(self.angle)[1] * 10
+        
+#        Missile
+#        Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
+        a_missile = Sprite(missile_pos, missile_vel, self.angle, self.angle_vel, missile_image, missile_info, missile_sound)
+        missile_sound.play()
     
     def draw(self,canvas):
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
@@ -168,7 +177,6 @@ class Sprite:
             sound.play()
    
     def draw(self, canvas):
-#        canvas.draw_circle(self.pos, self.radius, 1, "Red", "Red")
         canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
@@ -188,6 +196,10 @@ def draw(canvas):
     canvas.draw_image(nebula_image, nebula_info.get_center(), nebula_info.get_size(), [WIDTH / 2, HEIGHT / 2], [WIDTH, HEIGHT])
     canvas.draw_image(debris_image, center, size, (wtime - WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
     canvas.draw_image(debris_image, center, size, (wtime + WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
+    canvas.draw_text("SCORE", (WIDTH - 120, 50), 30, "white", "sans-serif")
+    canvas.draw_text(str(score), (WIDTH - 72, 80), 24, "white", "sans-serif")
+    canvas.draw_text("LIVES", (20, 50), 30, "white", "sans-serif")
+    canvas.draw_text(str(lives), (50, 80), 24, "white", "sans-serif")
 
     # draw ship and sprites
     my_ship.draw(canvas)
@@ -203,13 +215,12 @@ def draw(canvas):
 def keydown(key):
     if key == simplegui.KEY_MAP["up"]:
         my_ship.thrusters_on()
-#        my_ship.fly_ship()
     elif key == simplegui.KEY_MAP["left"]:
         my_ship.rotate_ccw()
     elif key == simplegui.KEY_MAP["right"]:
         my_ship.rotate_cw()
     elif key == simplegui.KEY_MAP["space"]:
-        print("You shot the sherrif")
+        my_ship.shoot()
 
 def keyup(key):
     if key == simplegui.KEY_MAP["up"]:
@@ -218,6 +229,8 @@ def keyup(key):
         my_ship.stop_rotation()
     elif key == simplegui.KEY_MAP["right"]:
         my_ship.stop_rotation()
+#    elif key == simplegui.KEY_MAP["space"]:
+#         my_ship.not_shooting()
         
 # timer handler that spawns a rock    
 def rock_spawner():
@@ -226,7 +239,8 @@ def rock_spawner():
     random_pos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
     random_angle_vel = float(random.randrange(0.0, 9.0)) / 1000
     a_rock = Sprite(random_pos, random_vel, 0, random_angle_vel, asteroid_image, asteroid_info)
-      
+    
+    
 # initialize frame
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
