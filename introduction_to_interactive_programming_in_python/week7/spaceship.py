@@ -1,4 +1,4 @@
-# program template for Spaceship
+# Spaceship
 import simplegui
 import math
 import random
@@ -180,8 +180,7 @@ class Sprite:
         self.angle += self.angle_vel
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]        
-
-           
+       
 def draw(canvas):
     global time
     
@@ -208,7 +207,6 @@ def draw(canvas):
     a_rock.update()
     a_missile.update()
     
-
 def keydown(key):
     if key == simplegui.KEY_MAP["up"]:
         my_ship.thrusters_on()
@@ -232,7 +230,7 @@ def rock_spawner():
     global a_rock
     random_vel = [random.randrange(-10, 10), random.randrange(-10, 10)]
     random_pos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
-    random_angle_vel = float(random.randrange(0.0, 15.0)) / 100
+    random_angle_vel = float(random.randrange(-5.0, 15.0)) / 100
     a_rock = Sprite(random_pos, random_vel, 0, random_angle_vel, asteroid_image, asteroid_info)
     
 # initialize frame
