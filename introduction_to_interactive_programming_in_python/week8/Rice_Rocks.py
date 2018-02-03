@@ -272,8 +272,11 @@ def draw(canvas):
 
     # draw ship and sprites
     my_ship.draw(canvas)
-    process_sprite_group(rock_group, canvas)
-    process_sprite_group(missile_group, canvas)
+    
+    if started:
+        process_sprite_group(rock_group, canvas)
+        process_sprite_group(missile_group, canvas)
+        timer.start()
     
     # update ship and sprites
     my_ship.update()
@@ -282,6 +285,8 @@ def draw(canvas):
         lives -= 1
         if lives == 0:
             started = False
+            rock_group.difference_update(rock_group)
+            timer.stop()
             
     if group_group_collide(rock_group, missile_group):
         score += 1
@@ -327,5 +332,4 @@ frame.set_draw_handler(draw)
 timer = simplegui.create_timer(1000.0, rock_spawner)
 
 # get things rolling
-timer.start()
 frame.start()
