@@ -224,13 +224,15 @@ def keyup(key):
         
 # mouseclick handlers that reset UI and conditions whether splash image is drawn
 def click(pos):
-    global started
+    global started, lives, score
     center = [WIDTH / 2, HEIGHT / 2]
     size = splash_info.get_size()
     inwidth = (center[0] - size[0] / 2) < pos[0] < (center[0] + size[0] / 2)
     inheight = (center[1] - size[1] / 2) < pos[1] < (center[1] + size[1] / 2)
     if (not started) and inwidth and inheight:
         started = True
+        score = 0
+        lives = 3
 
 def group_collide(group, other_object):
     remove_set = set([])
@@ -242,9 +244,16 @@ def group_collide(group, other_object):
         return True
     else:
         return False
-        
+
+def group_group_collide(group1, group2):
+    collision_counter = set([])
+    for item in set(group1):
+        if group_collide(group2, item):
+            group1.remove(item)
+            return True
+    
 def draw(canvas):
-    global time, started, lives
+    global time, started, lives, score
     
     # animate background
     time += 1
@@ -273,6 +282,9 @@ def draw(canvas):
         lives -= 1
         if lives == 0:
             started = False
+            
+    if group_group_collide(rock_group, missile_group):
+        score += 1
     
     # draw splash screen if not started
     if not started:
@@ -303,7 +315,6 @@ frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
 # initialize ship and two sprites
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
-#a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
 missile_group = set([])
 rock_group = set([])
 
