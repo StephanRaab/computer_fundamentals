@@ -155,7 +155,8 @@ class Ship:
         missile_pos = [self.pos[0] + self.radius * forward[0], self.pos[1] + self.radius * forward[1]]
         missile_vel = [self.vel[0] + 6 * forward[0], self.vel[1] + 6 * forward[1]]
         a_missile = Sprite(missile_pos, missile_vel, self.angle, 0, missile_image, missile_info, missile_sound)
-    
+        missile_group.add(a_missile)
+        
 # Sprite class
 class Sprite:
     def __init__(self, pos, vel, ang, ang_vel, image, info, sound = None):
@@ -194,6 +195,12 @@ class Sprite:
         # update position
         self.pos[0] = (self.pos[0] + self.vel[0]) % WIDTH
         self.pos[1] = (self.pos[1] + self.vel[1]) % HEIGHT
+        
+        self.age += 1
+        if self.age >= self.lifespan:
+            return False
+        else:
+            return True
   
         
 # key handlers to control ship   
@@ -257,11 +264,10 @@ def draw(canvas):
     # draw ship and sprites
     my_ship.draw(canvas)
     process_sprite_group(rock_group, canvas)
-    a_missile.draw(canvas)
+    process_sprite_group(missile_group, canvas)
     
     # update ship and sprites
     my_ship.update()
-    a_missile.update()
     
     if group_collide(rock_group, my_ship):
         lives -= 1
@@ -278,6 +284,9 @@ def process_sprite_group(set, canvas):
     for sprite in set:
         sprite.draw(canvas)
         sprite.update()
+    for sprite in list(set):
+        if not sprite.update():
+            set.remove(sprite)
         
 # timer handler that spawns a rock    
 def rock_spawner():
@@ -294,7 +303,8 @@ frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
 # initialize ship and two sprites
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
-a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
+#a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
+missile_group = set([])
 rock_group = set([])
 
 # register handlers
