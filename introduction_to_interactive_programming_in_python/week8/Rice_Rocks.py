@@ -128,7 +128,13 @@ class Ship:
             
         self.vel[0] *= .99
         self.vel[1] *= .99
-
+    
+    def get_position(self):
+        return self.pos
+    
+    def get_radius(self):
+        return self.radius
+    
     def set_thrust(self, on):
         self.thrust = on
         if on:
@@ -171,7 +177,16 @@ class Sprite:
     def draw(self, canvas):
         canvas.draw_image(self.image, self.image_center, self.image_size,
                           self.pos, self.image_size, self.angle)
-
+    
+    def get_position(self):
+        return self.pos
+    
+    def get_radius(self):
+        return self.radius
+    
+    def collide(self, other_group):
+        return dist(self.get_position(), other_group.get_position()) <= self.get_radius() + other_group.get_radius()
+    
     def update(self):
         # update angle
         self.angle += self.angle_vel
@@ -210,10 +225,21 @@ def click(pos):
     if (not started) and inwidth and inheight:
         started = True
 
+def group_collide(group, other_object):
+    remove_set = set([])
+    for sprite in set(group):
+        if sprite.collide(other_object):
+            remove_set.add(sprite)
+    group.difference_update(remove_set)
+    if len(remove_set) > 0:
+        return True
+    else:
+        return False
+        
 def draw(canvas):
-    global time, started
+    global time, started, lives
     
-    # animiate background
+    # animate background
     time += 1
     wtime = (time / 4) % WIDTH
     center = debris_info.get_center()
@@ -236,7 +262,12 @@ def draw(canvas):
     # update ship and sprites
     my_ship.update()
     a_missile.update()
-
+    
+    if group_collide(rock_group, my_ship):
+        lives -= 1
+        if lives == 0:
+            started = False
+    
     # draw splash screen if not started
     if not started:
         canvas.draw_image(splash_image, splash_info.get_center(), 
@@ -263,7 +294,6 @@ frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
 # initialize ship and two sprites
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
-#a_rock = Sprite([WIDTH / 3, HEIGHT / 3], [1, 1], 0, .1, asteroid_image, asteroid_info)
 a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
 rock_group = set([])
 
