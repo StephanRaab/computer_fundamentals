@@ -177,7 +177,7 @@ class Sprite:
    
     def draw(self, canvas):
         canvas.draw_image(self.image, self.image_center, self.image_size,
-                          self.pos, self.image_size, self.angle)
+                          self.pos, self.image_size, self.angle)            
     
     def get_position(self):
         return self.pos
@@ -272,6 +272,7 @@ def draw(canvas):
 
     # draw ship and sprites
     my_ship.draw(canvas)
+    process_sprite_group(explosion_group, canvas)
     
     if started:
         process_sprite_group(rock_group, canvas)
@@ -315,7 +316,8 @@ def rock_spawner():
     rock_avel = random.random() * .2 - .1
     if len(rock_group) < 12:
         a_rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
-        rock_group.add(a_rock)
+        if dist(a_rock.pos, my_ship.pos) > a_rock.radius:
+            rock_group.add(a_rock)
             
 # initialize stuff
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
@@ -324,6 +326,7 @@ frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], [0, 0], 0, ship_image, ship_info)
 missile_group = set([])
 rock_group = set([])
+explosion_group = set([])
 
 # register handlers
 frame.set_keyup_handler(keyup)
