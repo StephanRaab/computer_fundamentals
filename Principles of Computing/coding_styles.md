@@ -14,6 +14,26 @@ Docstrings describe **what** is being done, **not** how.
 
  Comments should describe **how** a section of code is accomplishing something.
 
+ Good example:
+
+ ```python
+ # this is a block comment
+ # that spans multiple lines
+ # explaining the following code
+ val = some_complicated_expression
+ ```
+Bad example:
+
+```python
+"""
+Somebody told me that a multiline
+string is a block comment.
+
+It's not.
+"""
+val = some_complicted_expression
+```
+
 ## Global Variables
 
 Global variables should never be used.(Except for **CONSTANTS**) Avoiding their use is good programming practice.
