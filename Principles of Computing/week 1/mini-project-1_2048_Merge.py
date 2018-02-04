@@ -35,9 +35,14 @@ def merge(line):
     print "Second:", second_list
     
     final_count = 0
+    for num in line:
+        final_list.append(0)
+        
     for number in second_list:
+        print "number= ", number
+        
         if number > 0:
-            second_list[final_count] = number
+            final_list[final_count] = number
             final_count += 1
         else:
             final_count = final_count
