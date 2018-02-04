@@ -277,6 +277,7 @@ def draw(canvas):
         process_sprite_group(rock_group, canvas)
         process_sprite_group(missile_group, canvas)
         timer.start()
+        soundtrack.play()
     
     # update ship and sprites
     my_ship.update()
@@ -287,6 +288,7 @@ def draw(canvas):
             started = False
             rock_group.difference_update(rock_group)
             timer.stop()
+            soundtrack.rewind()
             
     if group_group_collide(rock_group, missile_group):
         score += 1
