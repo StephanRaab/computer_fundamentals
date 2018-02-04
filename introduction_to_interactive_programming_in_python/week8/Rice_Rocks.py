@@ -110,7 +110,6 @@ class Ship:
         else:
             canvas.draw_image(self.image, self.image_center, self.image_size,
                               self.pos, self.image_size, self.angle)
-        # canvas.draw_circle(self.pos, self.radius, 1, "White", "White")
 
     def update(self):
         # update angle
@@ -174,11 +173,17 @@ class Sprite:
         if sound:
             sound.rewind()
             sound.play()
-   
+                    
     def draw(self, canvas):
         canvas.draw_image(self.image, self.image_center, self.image_size,
                           self.pos, self.image_size, self.angle)            
-    
+        if self.animated:
+            explosion_index = self.age
+            explosion_center = [explosion_info.get_center()[0] + explosion_index * explosion_info.get_size()[0], 
+                                explosion_info.get_center()[1]]
+            canvas.draw_image(explosion_image, explosion_center, explosion_info.get_size(),
+                              self.pos,explosion_info.get_size())
+                    
     def get_position(self):
         return self.pos
     
@@ -201,8 +206,7 @@ class Sprite:
             return False
         else:
             return True
-  
-        
+
 # key handlers to control ship   
 def keydown(key):
     if key == simplegui.KEY_MAP['left']:
@@ -235,10 +239,14 @@ def click(pos):
         lives = 3
 
 def group_collide(group, other_object):
+#    global explosion_group
     remove_set = set([])
     for sprite in set(group):
         if sprite.collide(other_object):
             remove_set.add(sprite)
+            explosion = Sprite(sprite.pos, [0,0], 0, 0, explosion_image, explosion_info)
+            explosion_group.add(explosion)
+            explosion_sound.play()
     group.difference_update(remove_set)
     if len(remove_set) > 0:
         return True
@@ -292,7 +300,7 @@ def draw(canvas):
             soundtrack.rewind()
             
     if group_group_collide(rock_group, missile_group):
-        score += 1
+        score += 10
     
     # draw splash screen if not started
     if not started:
