@@ -25,12 +25,16 @@ def merge(line):
     
     merged = False
     for item in range(len(first_list)-1):
+        print first_list[item], ":", first_list[item + 1]
         if (first_list[item] == first_list[item + 1]) and not merged:
             second_list.append(first_list[item] + first_list[item + 1])
             second_list.append(0)
             merged = True
-        else:
+        elif merged == True:
             second_list.append(first_list[item + 1])
+        else:
+            second_list.append(first_list[item])
+
             
     print "Second:", second_list
     
@@ -38,9 +42,7 @@ def merge(line):
     for num in line:
         final_list.append(0)
         
-    for number in second_list:
-        print "number= ", number
-        
+    for number in second_list:  
         if number > 0:
             final_list[final_count] = number
             final_count += 1
@@ -50,4 +52,4 @@ def merge(line):
     print "Final:", final_list
 #    return []
 
-merge([2, 0, 2, 2])
+merge([8, 16, 16, 8])
