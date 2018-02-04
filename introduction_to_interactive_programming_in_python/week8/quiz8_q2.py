@@ -8,4 +8,10 @@ print s
 #print s.intersection(t)				NO
 #print s.remove(4)						YES
 #print t.intersection(s)				NO
+# print(t.symmetric_difference(s)) #no
+# print(s.update(t)) # yes
+# print s.difference(t) #no
+# print s.discard(4) # yes
+# print t.update(s) # no
+print s.intersection_update(s)
 print s
