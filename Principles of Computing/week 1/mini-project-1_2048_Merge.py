@@ -17,7 +17,7 @@ def merge(line):
          
     for num in range(1, len(line)):
         if first_list[num - 1] == first_list[num]:
-            first_list[num - 1] = first_list[num - 1] * 2
+            first_list[num - 1] *= 2
             first_list[num] = 0
     
     final_list = []
