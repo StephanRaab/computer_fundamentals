@@ -7,49 +7,26 @@ def merge(line):
     Function that merges a single row or column in 2048.
     """
     first_list = []
-    second_list = []
+    for num in line:
+        if num  > 0:
+            first_list.append(num)
+    if len(first_list) < len(line):
+        add_zero = len(line) - len(first_list)
+        for num in range(add_zero):
+            first_list.append(0)
+         
+    for num in range(1, len(line)):
+        if first_list[num - 1] == first_list[num]:
+            first_list[num - 1] = first_list[num - 1] * 2
+            first_list[num] = 0
+    
     final_list = []
-    
-    for num in line:
-        first_list.append(0)
-        
-    count = 0
-    print "Before:", line
-    for square in line:
-        if square > 0:
-            first_list[count] = square
-            count += 1
-        else:
-            count = count
-    print "First: ", first_list
-    
-    mergeTotal = len(line) / 2
-    mergeAmount = 0
-    for item in range(len(first_list)-1):
-        print first_list[item], ":", first_list[item + 1]
-        if (first_list[item] == first_list[item + 1]) and mergeAmount < mergeTotal :
-            second_list.append(first_list[item] + first_list[item + 1])
-            second_list.append(0)
-            mergeAmount += 1
-#        elif mergeAmount == mergeTotal:
-#            second_list.append(first_list[item])
-#        else:
-#            second_list.append(first_list[item])
+    for num in first_list:
+        if num > 0:
+            final_list.append(num)
+    if len(final_list) < len(line):
+        add_zero = len(line) - len(final_list)
+        for num in range(add_zero):
+            final_list.append(0)
             
-    print "Second:", second_list
-    
-    final_count = 0
-    for num in line:
-        final_list.append(0)
-        
-    for number in second_list:  
-        if number > 0:
-            final_list[final_count] = number
-            final_count += 1
-        else:
-            final_count = final_count
-                 
-    print "Final:", final_list
     return final_list
-
-merge([2, 2, 2, 2])
