@@ -23,18 +23,6 @@ go_down = []
 go_left = []
 go_right = []
 
-for col in range(GRID_WIDTH):
-    go_up.append([0, col])
-    
-for col in range(GRID_WIDTH):
-    go_down.append([GRID_HEIGHT - 1, col])
-    
-for row in range(GRID_WIDTH):
-    go_left.append([row, 0])
-    
-for row in range(GRID_HEIGHT):
-    go_right.append([row, GRID_WIDTH - 1])
-
 def merge(line):
     """
     Helper function that merges a single row or column in 2048
@@ -74,7 +62,19 @@ class TwentyFortyEight:
         self.height = grid_height
         self.width = grid_width
         self.reset()
-        self.direction = {UP: go_up, DOWN: go_down, LEFT: go_left, RIGHT, go_right}
+        for col in range(self.width):
+            go_up.append([0, col])
+
+        for col in range(self.width):
+            go_down.append([self.height - 1, col])
+
+        for row in range(self.height):
+            go_left.append([row, 0])
+
+        for row in range(self.height):
+            go_right.append([row, self.width - 1])
+        
+        self.direction = {UP: go_up, DOWN: go_down, LEFT: go_left, RIGHT: go_right}
 
     def reset(self):
         """
