@@ -18,6 +18,23 @@ OFFSETS = {UP: (1, 0),
            LEFT: (0, 1),
            RIGHT: (0, -1)}
 
+go_up = []
+go_down = []
+go_left = []
+go_right = []
+
+for col in range(GRID_WIDTH):
+    go_up.append([0, col])
+    
+for col in range(GRID_WIDTH):
+    go_down.append([GRID_HEIGHT - 1, col])
+    
+for row in range(GRID_WIDTH):
+    go_left.append([row, 0])
+    
+for row in range(GRID_HEIGHT):
+    go_right.append([row, GRID_WIDTH - 1])
+
 def merge(line):
     """
     Helper function that merges a single row or column in 2048
@@ -57,14 +74,18 @@ class TwentyFortyEight:
         self.height = grid_height
         self.width = grid_width
         self.reset()
+        self.direction = {UP: go_up, DOWN: go_down, LEFT: go_left, RIGHT, go_right}
 
     def reset(self):
         """
         Reset the game so the grid is empty, generate two
         initial tiles.
         """
+        # set entire grid to zeros
         self.grid = [[0 for col in range(self.get_grid_width())] 
                    for row in range(self.get_grid_height())]
+        
+        # generate two new tiles
         self.new_tile()
         self.new_tile()
 
