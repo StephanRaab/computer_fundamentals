@@ -106,71 +106,60 @@ class TwentyFortyEight:
         Get the width of the board.
         """
         return self._width
+    
+    def traverse_grid(self, start_cell, direction, num_steps, moved):
+        """
+        Function that iterates through the cells in a grid
+        in a linear direction
 
+        Both start_cell is a tuple(row, col) denoting the
+        starting cell
+
+        direction is a tuple that contains difference between
+        consecutive cells in the traversal
+        """
+        #temp list for merge function
+        temp_list = []
+
+        for step in range(num_steps):
+            row = start_cell[0] + step * direction[0]
+            col = start_cell[1] + step * direction[1]
+            temp_list.append(self._grid[row][col])
+        new_list = merge(temp_list)
+
+        # store new list into grid
+        new_list_count = 0
+        for step in range(num_steps):
+            row = start_cell[0] + step * direction[0]
+            col = start_cell[1] + step * direction[1]
+
+            # compare new with old cells
+            if new_list[new_list_count] != self._grid[row][col]:
+                moved = True
+            self._grid[row][col] = new_list[new_list_count]          
+            new_list_count += 1
+        return moved
+                                              
     def move(self, direction):
         """
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
-        init_tiles = self._border[direction]
-        rows = []
-        columns = []
-
-        #RIGHT
-        if OFFSETS[direction] == (0,-1) or OFFSETS[direction] == (0,1):
-            num_steps = self.get_grid_width()
-            for row in init_tiles:
-                for col in range(num_steps):
-                    rows.append([row[0], col])         
-        else:
-            num_steps = self.get_grid_height()
-            for row in init_tiles:
-                for col in range(num_steps):
-                    columns.append([col, row[1]])
-        
-        if len(rows) > 0:
-            print "rows: ", rows
-            temp1 = []
-            temp2 = []
-            temp3 = []
-            temp4 = []
-            temp5 = []
-            row1 = rows[0:4]
-            row2 = rows[4:8]
-            row3 = rows[8:12]
-            row4 = rows[12:16]
-            row5 = rows[16:20]
-            print row1
-            print row2
-            print row3
-            print row4
-            print row5
-            for num in row1:
-                temp1.append(self._grid[num[0]][num[1]])
-            for num in row2:    
-                temp2.append(self._grid[num[0]][num[1]])
-            for num in row3:    
-                temp3.append(self._grid[num[0]][num[1]])
-            for num in row4:    
-                temp4.append(self._grid[num[0]][num[1]])
-            for num in row5:    
-                temp5.append(self._grid[num[0]][num[1]])
-                
-            print temp1
-            print temp2
-            print temp3
-            print temp4
-            print temp5
-            
-            print "============"
-            
-            print merge(temp1)
-            print merge(temp2)
-            print merge(temp3)
-            print merge(temp4)
-            print merge(temp5)
-        else:
-            print "columns: ", columns
+        moved = False
+        if direction == UP:
+            for num in self._border[UP]:
+                moved = self.traverse_grid(num, OFFSETS[UP], self._height, moved)
+        elif direction == DOWN:
+            for num in self._border[DOWN]:
+                moved = self.traverse_grid(num, OFFSETS[DOWN], self._height, moved)
+        elif direction == LEFT:
+            for num in self._border[LEFT]:
+                moved = self.traverse_grid(num, OFFSETS[LEFT], self._width, moved)
+        elif direction == RIGHT:
+            for num in self._border[RIGHT]:
+                moved = self.traverse_grid(num, OFFSETS[RIGHT], self._width, moved)
+        if moved:
+            self.new_tile() 
         
     def new_tile(self):
         """
@@ -200,25 +189,32 @@ class TwentyFortyEight:
         """
         Return the value of the tile at position row, col.
         """
-        return self._grid[row][col]
+        return self._grid[row][col] 
     
-my_game = TwentyFortyEight(5, 4)
-#my_game.reset()
-#my_game.set_tile(0, 0, 2)
-#my_game.set_tile(1, 0, 2)
-#my_game.set_tile(0, 1, 2)
-#my_game.set_tile(2, 1, 2)
-#my_game.set_tile(0, 2, 2)
-#my_game.set_tile(2, 2, 2)
-#my_game.set_tile(1, 3, 2)
-#my_game.set_tile(2, 3, 2)
-#my_game.set_tile(2, 2, 4)
-#my_game.set_tile(1, 2, 4)
-#my_game.set_tile(1, 1, 4)
-#print str(my_game)
-#print my_game.get_tile(1, 2)
-#my_game.new_tile()
-#my_game.move(RIGHT)
-print str(my_game)    
-    
+obj = TwentyFortyEight(4, 4)
+obj.set_tile(0, 0, 2)
+obj.set_tile(0, 1, 0)
+obj.set_tile(0, 2, 0)
+obj.set_tile(0, 3, 0)
+obj.set_tile(1, 0, 0)
+obj.set_tile(1, 1, 2)
+obj.set_tile(1, 2, 0)
+obj.set_tile(1, 3, 0)
+obj.set_tile(2, 0, 0)
+obj.set_tile(2, 1, 0)
+obj.set_tile(2, 2, 2)
+obj.set_tile(2, 3, 0)
+obj.set_tile(3, 0, 0)
+obj.set_tile(3, 1, 0)
+obj.set_tile(3, 2, 0)
+obj.set_tile(3, 3, 2)
+print str(obj)
+print "============"
+obj.move(DOWN)
+#expected:
+#[[0, 0, 0, 0]
+# [0, 0, 0, 0]
+# [0, 0, 0, 0]
+# [2, 2, 2, 2]] 
+print str(obj)
 #poc_2048_gui.run_gui(TwentyFortyEight(5, 4))
