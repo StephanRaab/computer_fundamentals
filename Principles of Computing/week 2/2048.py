@@ -18,11 +18,6 @@ OFFSETS = {UP: (1, 0),
            LEFT: (0, 1),
            RIGHT: (0, -1)}
 
-T_BORDER = []
-B_BORDER = []
-L_BORDER = []
-R_BORDER = []
-
 def merge(line):
     """
     Helper function that merges a single row or column in 2048
@@ -60,21 +55,27 @@ class TwentyFortyEight:
         # replace with your code
         self._height = grid_height
         self._width = grid_width
-        self.reset()
-        for col in range(self._width):
-            T_BORDER.append([0, col])
-
-        for col in range(self._width):
-            B_BORDER.append([self._height - 1, col])
-
-        for row in range(self._height):
-            L_BORDER.append([row, 0])
-
-        for row in range(self._height):
-            R_BORDER.append([row, self._width - 1])
         
-        self._border = {UP: T_BORDER, DOWN: B_BORDER,
-                       LEFT: L_BORDER, RIGHT: R_BORDER}
+        t_border = []
+        b_border = []
+        l_border = []
+        r_border = []
+
+        for col in range(self._width):
+            t_border.append([0, col])
+
+        for col in range(self._width):
+            b_border.append([self._height - 1, col])
+
+        for row in range(self._height):
+            l_border.append([row, 0])
+
+        for row in range(self._height):
+            r_border.append([row, self._width - 1])
+        
+        self._border = {UP: t_border, DOWN: b_border,
+                       LEFT: l_border, RIGHT: r_border}
+        self.reset()
 
     def reset(self):
         """
@@ -82,9 +83,9 @@ class TwentyFortyEight:
         initial tiles.
         """
         # set entire grid to zeros
-        self._grid = [[0 for num in range(self.get_grid_width())] 
-                   for num in range(self.get_grid_height())]
-        
+        self._grid = [[0 for num in range(self._width)]
+             for num in range(self._height)]
+
         # generate two new tiles
         self.new_tile()
         self.new_tile()
@@ -178,6 +179,17 @@ class TwentyFortyEight:
         if len(open_tiles) != 0:
             (row, col) = random.choice(open_tiles)
             self.set_tile(row, col, new_tile_num)
+            
+#        zero_cells = []
+#        for row in range(self._height):
+#            for col in range(self._width):
+#                if self._grid[row][col] == 0:
+#                    zero_cells.append([row, col])
+#        
+#        # randomly select one of the zero cells for a new tile
+#        if zero_cells != []:
+#            chosen_cell = random.choice(zero_cells)
+#            self._grid[chosen_cell[0]][chosen_cell[1]] = new_tile_num
 
     def set_tile(self, row, col, value):
         """
@@ -191,30 +203,30 @@ class TwentyFortyEight:
         """
         return self._grid[row][col] 
     
-obj = TwentyFortyEight(4, 4)
-obj.set_tile(0, 0, 2)
-obj.set_tile(0, 1, 0)
-obj.set_tile(0, 2, 0)
-obj.set_tile(0, 3, 0)
-obj.set_tile(1, 0, 0)
-obj.set_tile(1, 1, 2)
-obj.set_tile(1, 2, 0)
-obj.set_tile(1, 3, 0)
-obj.set_tile(2, 0, 0)
-obj.set_tile(2, 1, 0)
-obj.set_tile(2, 2, 2)
-obj.set_tile(2, 3, 0)
-obj.set_tile(3, 0, 0)
-obj.set_tile(3, 1, 0)
-obj.set_tile(3, 2, 0)
-obj.set_tile(3, 3, 2)
-print str(obj)
-print "============"
-obj.move(DOWN)
-#expected:
-#[[0, 0, 0, 0]
-# [0, 0, 0, 0]
-# [0, 0, 0, 0]
-# [2, 2, 2, 2]] 
-print str(obj)
-#poc_2048_gui.run_gui(TwentyFortyEight(5, 4))
+#obj = TwentyFortyEight(4, 4)
+#obj.set_tile(0, 0, 2)
+#obj.set_tile(0, 1, 0)
+#obj.set_tile(0, 2, 0)
+#obj.set_tile(0, 3, 0)
+#obj.set_tile(1, 0, 0)
+#obj.set_tile(1, 1, 2)
+#obj.set_tile(1, 2, 0)
+#obj.set_tile(1, 3, 0)
+#obj.set_tile(2, 0, 0)
+#obj.set_tile(2, 1, 0)
+#obj.set_tile(2, 2, 2)
+#obj.set_tile(2, 3, 0)
+#obj.set_tile(3, 0, 0)
+#obj.set_tile(3, 1, 0)
+#obj.set_tile(3, 2, 0)
+#obj.set_tile(3, 3, 2)
+#print str(obj)
+#print "============"
+#obj.move(DOWN)
+##expected:
+##[[0, 0, 0, 0]
+## [0, 0, 0, 0]
+## [0, 0, 0, 0]
+## [2, 2, 2, 2]] 
+#print str(obj)
+poc_2048_gui.run_gui(TwentyFortyEight(5, 4))
