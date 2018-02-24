@@ -37,4 +37,3 @@ class TestSuite:
         msg = "Ran " + str(self.total_tests) + " tests. "
         msg += str(self.failures) + " failures."
         print(msg)
-               

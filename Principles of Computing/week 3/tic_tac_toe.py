@@ -3,10 +3,10 @@ Monte Carlo Tic-Tac-Toe Player
 """
 
 import random
-# import poc_ttt_gui
+import poc_ttt_gui
 import poc_ttt_provided as provided
 
-import TEST_mc_trial
+import TEST_mc_move
 
 # Constants for Monte Carlo simulator
 # You may change the values of these constants as desired, but
@@ -14,13 +14,28 @@ import TEST_mc_trial
 NTRIALS = 1         # Number of trials to run
 SCORE_CURRENT = 1.0 # Score for squares played by the current player
 SCORE_OTHER = 1.0   # Score for squares played by the other player
+EMPTY = provided.EMPTY
+PLAYERX = provided.PLAYERX
+PLAYERO = provided.PLAYERO
+DRAW = provided.DRAW
 
-def addition(num1, num2):
-    """
-    simple function to make sure my testing framework is connected
-    """
-    return num1 + num2
+print EMPTY, PLAYERX, PLAYERO, DRAW
 
+#provided.switch_player(player)
+
+board = provided.TTTBoard(3, False, None)
+
+def switch_player(player):
+    """
+    Convenience function to switch players.
+    
+    Returns other player.
+    """
+    if player == PLAYERX:
+        return PLAYERO
+    else:
+        return PLAYERX
+    
 # Add your functions here.
 def mc_trial(board, player):
     """
@@ -50,7 +65,7 @@ def get_best_move(board, scores):
     and randomly return one of them as a (row, column) tuple.
     It is an error to call this function with a board that has
     no empty squares (there's no possible next move),
-    so your functoin may do whatever it wants in that case.
+    so your function may do whatever it wants in that case.
     The case wehre the board is full will NOT be tested.
     """
     pass
@@ -61,14 +76,18 @@ def mc_move(board, player, trials):
     and the number of trials to run.
     Use the Monte Carlo simulation to return a move for the machine player
     in the form of a (row, column) tuple.
-	"""
-    pass
+    """
+    for i in range(len(board.get_empty_squares())):
+        pos = board.get_empty_squares()[i]
+        return (pos[0], pos[1])
+    
+#print mc_move(board, PLAYERX, NTRIALS)
 
 # Test game with the console or the GUI.  Uncomment whichever 
 # you prefer.  Both should be commented out when you submit 
 # for testing to save time.
 
-TEST_mc_trial.run_suite(mc_trial)
+TEST_mc_move.run_suite(mc_move)
 
-provided.play_game(mc_move, NTRIALS, False)
+provided.play_game(mc_move, NTRIALS, False)  
 #poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)

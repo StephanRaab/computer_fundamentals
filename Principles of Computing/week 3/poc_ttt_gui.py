@@ -2,7 +2,7 @@
 Tic Tac Toe GUI code.
 """
 
-import simplegui
+# import simplegui
 import poc_ttt_provided as provided
 
 GUI_WIDTH = 400
