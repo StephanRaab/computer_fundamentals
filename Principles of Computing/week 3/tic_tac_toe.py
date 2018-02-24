@@ -6,8 +6,6 @@ import random
 import poc_ttt_gui
 import poc_ttt_provided as provided
 
-import TEST_mc_move
-
 # Constants for Monte Carlo simulator
 # You may change the values of these constants as desired, but
 #  do not change their names.
@@ -19,22 +17,11 @@ PLAYERX = provided.PLAYERX
 PLAYERO = provided.PLAYERO
 DRAW = provided.DRAW
 
-print EMPTY, PLAYERX, PLAYERO, DRAW
+#print EMPTY, PLAYERX, PLAYERO, DRAW
 
 #provided.switch_player(player)
 
 board = provided.TTTBoard(3, False, None)
-
-def switch_player(player):
-    """
-    Convenience function to switch players.
-    
-    Returns other player.
-    """
-    if player == PLAYERX:
-        return PLAYERO
-    else:
-        return PLAYERX
     
 # Add your functions here.
 def mc_trial(board, player):
@@ -46,7 +33,12 @@ def mc_trial(board, player):
     The modified board will contain the state of the game,
     Doesn't return anything, it modifies the board input.
     """
-    pass
+    numbers = range(len(board.get_empty_squares()))
+    random.shuffle(numbers)
+    for i in range(len(board.get_empty_squares())):
+        return board.get_empty_squares()[numbers[i]]
+    
+mc_trial(board, PLAYERX)
 
 def mc_update_scores(scores, board, player):
     """
@@ -56,7 +48,7 @@ def mc_update_scores(scores, board, player):
     Score the completed board and update the scores grid.
     Since function updates the scores grid directly, doesn't return anything
     """
-    pass
+    
 
 def get_best_move(board, scores):
     """
@@ -66,7 +58,7 @@ def get_best_move(board, scores):
     It is an error to call this function with a board that has
     no empty squares (there's no possible next move),
     so your function may do whatever it wants in that case.
-    The case wehre the board is full will NOT be tested.
+    The case where the board is full will NOT be tested.
     """
     pass
 
@@ -77,9 +69,9 @@ def mc_move(board, player, trials):
     Use the Monte Carlo simulation to return a move for the machine player
     in the form of a (row, column) tuple.
     """
-    for i in range(len(board.get_empty_squares())):
-        pos = board.get_empty_squares()[i]
-        return (pos[0], pos[1])
+    for dummy_i in range(len(board.get_empty_squares())):
+        pos = board.get_empty_squares()[dummy_i]
+        return (pos[0],pos[1])
     
 #print mc_move(board, PLAYERX, NTRIALS)
 
@@ -87,7 +79,5 @@ def mc_move(board, player, trials):
 # you prefer.  Both should be commented out when you submit 
 # for testing to save time.
 
-TEST_mc_move.run_suite(mc_move)
-
-provided.play_game(mc_move, NTRIALS, False)  
+#provided.play_game(mc_move, NTRIALS, False)      
 #poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
