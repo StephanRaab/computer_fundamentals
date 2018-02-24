@@ -22,6 +22,17 @@ DRAW = provided.DRAW
 #provided.switch_player(player)
 
 board = provided.TTTBoard(3, False, None)
+
+def switch_player(player):
+    """
+    Convenience function to switch players.
+    
+    Returns other player.
+    """
+    if player == PLAYERX:
+        return PLAYERO
+    else:
+        return PLAYERX
     
 # Add your functions here.
 def mc_trial(board, player):
@@ -35,11 +46,16 @@ def mc_trial(board, player):
     """
     numbers = range(len(board.get_empty_squares()))
     random.shuffle(numbers)
-    for i in range(len(board.get_empty_squares())):
-        return board.get_empty_squares()[numbers[i]]
-    
-mc_trial(board, PLAYERX)
+    print numbers
+    print board.get_empty_squares()
+    for dummy_i in numbers:
+        pos = board.get_empty_squares()[dummy_i]
+        board.move(pos[0], pos[1], player)
+        player = switch_player(player)
+        print board
 
+mc_trial(board, PLAYERX)        
+        
 def mc_update_scores(scores, board, player):
     """
     Takes a grid of scores (a list of lists) with
