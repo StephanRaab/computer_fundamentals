@@ -6,6 +6,6 @@ def run_suite(mc_move):
     """
     suite = poc_simpletest.TestSuite()
 
-    suite.run_suite(mc_move("board", "player", 1), "expected result", "Test #1:")
+    suite.run_test(mc_move("board", "player", 1), "expected result", "Test #1:")
 
     suite.report_results()
