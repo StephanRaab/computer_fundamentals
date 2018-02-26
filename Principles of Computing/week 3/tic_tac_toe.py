@@ -31,7 +31,7 @@ def mc_trial(board, player):
         random_square = random.choice(empty_squares)
         board.move(random_square[0],random_square[1], player)
         player = provided.switch_player(player)
-        mc_trial(board,player)
+        mc_trial(board, player)
         
 def mc_update_scores(scores, board, player):
     """
@@ -101,10 +101,7 @@ def mc_move(board, player, trials):
     
     return get_best_move(board, scores)
     
-#print mc_move(board, PLAYERX, NTRIALS)
-
 #TEST_mc_update_scores.run_suite(mc_update_scores)
-
 
 # Test game with the console or the GUI.  Uncomment whichever 
 # you prefer.  Both should be commented out when you submit 
