@@ -72,30 +72,23 @@ def mc_update_scores(scores, board, player):
     Score the completed board and update the scores grid.
     Since function updates the scores grid directly, doesn't return anything
     """
-    scores = []
-    if player == 2:
-        for row in range(board.get_dim()):
-            new_row = []
-            for col in range(board.get_dim()):
-                if board.square(row, col) == 2:
-                    new_row.append(1.0)
-                elif board.square(row, col) == 3:
-                    new_row.append(-1.0)
-                else:
-                    new_row.append(0)
-            scores.append(new_row)
-    if player == 3:
-        for row in range(board.get_dim()):
-            new_row = []
-            for col in range(board.get_dim()):
-                if board.square(row, col) == 2:
-                    new_row.append(-1.0)
-                elif board.square(row, col) == 3:
-                    new_row.append(1.0)
-                else:
-                    new_row.append(0)
-            scores.append(new_row)
-    return scores
+    winner = board.check_win()
+    mc_match = 0
+    mc_other = 0
+    
+    if(winner == player):
+        mc_match = SCORE_CURRENT
+        mc_other = -SCORE_OTHER
+    elif(winner == provided.switch_player(player)):
+        mc_match = -SCORE_CURRENT
+        mc_other = SCORE_OTHER
+        
+    for row in range(board.get_dim()):
+        for col in range(board.get_dim()):
+            if board.square(row, col) == player:
+                scores[row][col] += mc_match
+            elif board.square(row,col) == provided.switch_player(player):
+                scores[row][col] += mc_other
 
 # print mc_update_scores([[0,0,0],[0,0,0],[0,0,0]], board, PLAYERX)
 
