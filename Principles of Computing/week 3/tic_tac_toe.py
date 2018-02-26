@@ -6,35 +6,14 @@ import random
 import poc_ttt_gui
 import poc_ttt_provided as provided
 
-import TEST_mc_update_scores
+#import TEST_mc_update_scores
 
 # Constants for Monte Carlo simulator
 # You may change the values of these constants as desired, but
 #  do not change their names.
-NTRIALS = 1         # Number of trials to run
+NTRIALS = 5        # Number of trials to run
 SCORE_CURRENT = 1.0 # Score for squares played by the current player
 SCORE_OTHER = 1.0   # Score for squares played by the other player
-EMPTY = provided.EMPTY
-PLAYERX = provided.PLAYERX
-PLAYERO = provided.PLAYERO
-DRAW = provided.DRAW
-
-print EMPTY, PLAYERX, PLAYERO, DRAW
-
-#provided.switch_player(player)
-
-board = provided.TTTBoard(3, False, None)
-
-def switch_player(player):
-    """
-    Convenience function to switch players.
-    
-    Returns other player.
-    """
-    if player == PLAYERX:
-        return PLAYERO
-    else:
-        return PLAYERX
     
 # Add your functions here.
 def mc_trial(board, player):
@@ -46,23 +25,13 @@ def mc_trial(board, player):
     The modified board will contain the state of the game,
     Doesn't return anything, it modifies the board input.
     """
-    numbers = range(len(board.get_empty_squares()))
-    random.shuffle(numbers)
     empty_squares = board.get_empty_squares()
-    print numbers
-    print empty_squares
-    for dummy_i in numbers:
-        if board.check_win() == None:
-            pos = empty_squares[dummy_i]
-            board.move(pos[0], pos[1], player)
-            print board.check_win()
-            player = switch_player(player)
-            print board
-        else:
-            return board.check_win()
-
-
-mc_trial(board, PLAYERX)        
+    
+    if board.check_win() == None:
+        random_square = random.choice(empty_squares)
+        board.move(random_square[0],random_square[1], player)
+        player = provided.switch_player(player)
+        mc_trial(board,player)
         
 def mc_update_scores(scores, board, player):
     """
@@ -76,10 +45,10 @@ def mc_update_scores(scores, board, player):
     mc_match = 0
     mc_other = 0
     
-    if(winner == player):
+    if winner == player:
         mc_match = SCORE_CURRENT
         mc_other = -SCORE_OTHER
-    elif(winner == provided.switch_player(player)):
+    elif winner == provided.switch_player(player):
         mc_match = -SCORE_CURRENT
         mc_other = SCORE_OTHER
         
@@ -87,10 +56,8 @@ def mc_update_scores(scores, board, player):
         for col in range(board.get_dim()):
             if board.square(row, col) == player:
                 scores[row][col] += mc_match
-            elif board.square(row,col) == provided.switch_player(player):
+            elif board.square(row, col) == provided.switch_player(player):
                 scores[row][col] += mc_other
-
-# print mc_update_scores([[0,0,0],[0,0,0],[0,0,0]], board, PLAYERX)
 
 def get_best_move(board, scores):
     """
@@ -102,7 +69,20 @@ def get_best_move(board, scores):
     so your function may do whatever it wants in that case.
     The case where the board is full will NOT be tested.
     """
-    pass
+    empty_squares = board.get_empty_squares()
+    max_score = -float("inf")
+    max_list = []
+    
+    if len(board.get_empty_squares()) == 0:
+        print "No Empty Tiles Left!"
+    else:
+        for row in range(board.get_dim()):
+            for col in range(board.get_dim()):
+                if scores[row][col] > max_score and (row, col) in empty_squares:
+                    max_score = scores[row][col]
+                    max_list = [row, col]
+        max_tuple = (max_list[0], max_list[1])
+    return max_tuple
 
 def mc_move(board, player, trials):
     """
@@ -111,13 +91,19 @@ def mc_move(board, player, trials):
     Use the Monte Carlo simulation to return a move for the machine player
     in the form of a (row, column) tuple.
     """
-    for dummy_i in range(len(board.get_empty_squares())):
-        pos = board.get_empty_squares()[dummy_i]
-        return (pos[0],pos[1])
+    scores = [[0 for dummy_i in range(board.get_dim())] 
+            for dummy_i in range(board.get_dim())]
+    
+    for dummy_i in range(trials):
+        clone_board = board.clone()
+        mc_trial(clone_board, player)
+        mc_update_scores(scores, clone_board, player)
+    
+    return get_best_move(board, scores)
     
 #print mc_move(board, PLAYERX, NTRIALS)
 
-TEST_mc_update_scores.run_suite(mc_update_scores)
+#TEST_mc_update_scores.run_suite(mc_update_scores)
 
 
 # Test game with the console or the GUI.  Uncomment whichever 
@@ -125,4 +111,4 @@ TEST_mc_update_scores.run_suite(mc_update_scores)
 # for testing to save time.
 
 #provided.play_game(mc_move, NTRIALS, False)      
-#poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
+poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
