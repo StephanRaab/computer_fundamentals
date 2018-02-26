@@ -17,7 +17,7 @@ PLAYERX = provided.PLAYERX
 PLAYERO = provided.PLAYERO
 DRAW = provided.DRAW
 
-#print EMPTY, PLAYERX, PLAYERO, DRAW
+print EMPTY, PLAYERX, PLAYERO, DRAW
 
 #provided.switch_player(player)
 
@@ -50,10 +50,15 @@ def mc_trial(board, player):
     print numbers
     print empty_squares
     for dummy_i in numbers:
-        pos = empty_squares[dummy_i]
-        board.move(pos[0], pos[1], player)
-        player = switch_player(player)
-        print board
+        if board.check_win() == None:
+            pos = empty_squares[dummy_i]
+            board.move(pos[0], pos[1], player)
+            print board.check_win()
+            player = switch_player(player)
+            print board
+        else:
+            return board.check_win()
+
 
 mc_trial(board, PLAYERX)        
         
