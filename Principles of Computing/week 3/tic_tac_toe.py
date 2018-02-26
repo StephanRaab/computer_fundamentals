@@ -6,6 +6,8 @@ import random
 import poc_ttt_gui
 import poc_ttt_provided as provided
 
+import TEST_mc_update_scores
+
 # Constants for Monte Carlo simulator
 # You may change the values of these constants as desired, but
 #  do not change their names.
@@ -70,7 +72,32 @@ def mc_update_scores(scores, board, player):
     Score the completed board and update the scores grid.
     Since function updates the scores grid directly, doesn't return anything
     """
-    
+    scores = []
+    if player == 2:
+        for row in range(board.get_dim()):
+            new_row = []
+            for col in range(board.get_dim()):
+                if board.square(row, col) == 2:
+                    new_row.append(1.0)
+                elif board.square(row, col) == 3:
+                    new_row.append(-1.0)
+                else:
+                    new_row.append(0)
+            scores.append(new_row)
+    if player == 3:
+        for row in range(board.get_dim()):
+            new_row = []
+            for col in range(board.get_dim()):
+                if board.square(row, col) == 2:
+                    new_row.append(-1.0)
+                elif board.square(row, col) == 3:
+                    new_row.append(1.0)
+                else:
+                    new_row.append(0)
+            scores.append(new_row)
+    return scores
+
+# print mc_update_scores([[0,0,0],[0,0,0],[0,0,0]], board, PLAYERX)
 
 def get_best_move(board, scores):
     """
@@ -96,6 +123,9 @@ def mc_move(board, player, trials):
         return (pos[0],pos[1])
     
 #print mc_move(board, PLAYERX, NTRIALS)
+
+TEST_mc_update_scores.run_suite(mc_update_scores)
+
 
 # Test game with the console or the GUI.  Uncomment whichever 
 # you prefer.  Both should be commented out when you submit 
