@@ -46,10 +46,11 @@ def mc_trial(board, player):
     """
     numbers = range(len(board.get_empty_squares()))
     random.shuffle(numbers)
+    empty_squares = board.get_empty_squares()
     print numbers
-    print board.get_empty_squares()
+    print empty_squares
     for dummy_i in numbers:
-        pos = board.get_empty_squares()[dummy_i]
+        pos = empty_squares[dummy_i]
         board.move(pos[0], pos[1], player)
         player = switch_player(player)
         print board
