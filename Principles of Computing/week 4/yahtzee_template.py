@@ -60,7 +60,15 @@ def gen_all_holds(hand):
 
     Returns a set of tuples, where each tuple is dice to hold
     """
-    return set([()])
+    all_holds = set([()])
+    for dummy_idx in range(len(hand)):
+        temp_set = set()
+        for item in all_holds:
+            new_sequence = list(item)
+            new_sequence.append(hand[dummy_idx])
+            temp_set.add(tuple(new_sequence))
+        all_holds = all_holds.union(temp_set)
+    return all_holds
 
 def strategy(hand, num_die_sides):
     """
@@ -90,9 +98,9 @@ run_example()
 # poc_holds_testsuite.run_suite(gen_all_holds)
 # import expected_value_testsuite
 # expected_value_testsuite.run_suite(expected_value)
-import score_testsuite
-score_testsuite.run_suite(score)
-# import gen_all_holds_testsuite
-# gen_all_holds_testsuite.run_suite(gen_all_holds)
+# import score_testsuite
+# score_testsuite.run_suite(score)
+import gen_all_holds_testsuite
+gen_all_holds_testsuite.run_suite(gen_all_holds)
 # import strategy_testsuite
 # strategy_testsuite.run_suite(strategy)
