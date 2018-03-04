@@ -4,15 +4,14 @@ Simplifications:  only allow discard and roll, only score against upper level
 """
 
 # Used to increase the timeout, if necessary
-# import codeskulptor
-# codeskulptor.set_timeout(20)
+import codeskulptor
+codeskulptor.set_timeout(20)
 
 def gen_all_sequences(outcomes, length):
     """
     Iterative function that enumerates the set of all sequences of
     outcomes of given length.
     """
-    
     answer_set = set([()])
     for dummy_idx in range(length):
         temp_set = set()
@@ -46,11 +45,13 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
 
     Returns a floating point expected value
     """
-    held_dice = (2,2)
-    num_die_sides = 6
-    num_free_dice = 2
+    total_rolls = gen_all_sequences([num + 1 for num in range(num_die_sides)], num_free_dice)
+    new_rolls = [] 
+    for roll in total_rolls:
+        new_rolls.append(roll + held_dice)
+    results = [score(die) for die in new_rolls]
     
-    return 0.0
+    return sum(results) / float(len(results))
 
 def gen_all_holds(hand):
     """
@@ -81,7 +82,14 @@ def strategy(hand, num_die_sides):
     Returns a tuple where the first element is the expected score and
     the second element is a tuple of the dice to hold
     """
-    return (0.0, ())
+    all_holds = gen_all_holds(hand)
+    results = dict()
+    for hold in all_holds:
+        num_free_dice = len(hand) - len(hold)
+        e_val = expected_value(hold, num_die_sides, num_free_dice)
+        results[e_val] = hold
+    max_value = max([value for value in results])
+    return (max_value, results[max_value])
 
 def run_example():
     """
@@ -92,15 +100,15 @@ def run_example():
     hand_score, hold = strategy(hand, num_die_sides)
     print "Best strategy for hand", hand, "is to hold", hold, "with expected score", hand_score
         
-run_example()
+# run_example()
 
-# import poc_holds_testsuite
-# poc_holds_testsuite.run_suite(gen_all_holds)
-# import expected_value_testsuite
-# expected_value_testsuite.run_suite(expected_value)
-# import score_testsuite
-# score_testsuite.run_suite(score)
-import gen_all_holds_testsuite
-gen_all_holds_testsuite.run_suite(gen_all_holds)
-# import strategy_testsuite
-# strategy_testsuite.run_suite(strategy)
+#import poc_holds_testsuite
+#poc_holds_testsuite.run_suite(gen_all_holds)
+#import expected_value_testsuite
+#expected_value_testsuite.run_suite(expected_value)
+#import score_testsuite
+#score_testsuite.run_suite(score)
+#import gen_all_holds_testsuite
+#gen_all_holds_testsuite.run_suite(gen_all_holds)
+#import strategy_testsuite
+#strategy_testsuite.run_suite(strategy)

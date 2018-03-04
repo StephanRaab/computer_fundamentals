@@ -39,8 +39,6 @@ def run_example1():
 
 run_example1()
 
-
-
 def gen_sorted_sequences(outcomes, length):
     """
     Function that creates all sorted sequences via gen_all_sequences
