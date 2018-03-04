@@ -26,6 +26,6 @@ def run_suite(gen_all_holds):
     suite.run_test(gen_all_holds(hand), set([(), (3,), (3, 3), (3, 3, 3)]), "Test #4:")
 
     hand = tuple([2, 3, 6])
-    suite.run_test(gen_all_holds(hand),set([(), (2,), (3,), (6,), (2, 3), (2, 6), (3, 6), (2, 3, 6)]), "Test #5:")
+    suite.run_test(gen_all_holds(hand), set([(), (2,), (3,), (6,), (2, 3), (2, 6), (3, 6), (2, 3, 6)]), "Test #5:")
 
     suite.report_results()

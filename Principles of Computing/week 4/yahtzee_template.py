@@ -33,7 +33,7 @@ def score(hand):
 
     Returns an integer score 
     """
-    return 0
+    return max([points * hand.count(points) for points in set(sorted(hand))])
 
 def expected_value(held_dice, num_die_sides, num_free_dice):
     """
@@ -86,13 +86,13 @@ def run_example():
         
 run_example()
 
-import poc_holds_testsuite
-poc_holds_testsuite.run_suite(gen_all_holds)
-import expected_value_testsuite
-expected_value_testsuite.run_suite(expected_value)
+# import poc_holds_testsuite
+# poc_holds_testsuite.run_suite(gen_all_holds)
+# import expected_value_testsuite
+# expected_value_testsuite.run_suite(expected_value)
 import score_testsuite
 score_testsuite.run_suite(score)
-import gen_all_holds_testsuite
-gen_all_holds_testsuite.run_suite(gen_all_holds)
-import strategy_testsuite
-strategy_testsuite.run_suite(strategy)
+# import gen_all_holds_testsuite
+# gen_all_holds_testsuite.run_suite(gen_all_holds)
+# import strategy_testsuite
+# strategy_testsuite.run_suite(strategy)
