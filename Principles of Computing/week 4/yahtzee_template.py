@@ -15,9 +15,9 @@ def gen_all_sequences(outcomes, length):
     answer_set = set([()])
     for dummy_idx in range(length):
         temp_set = set()
-        for partial_sequence in answer_set:
+        for answer in answer_set:
             for item in outcomes:
-                new_sequence = list(partial_sequence)
+                new_sequence = list(answer)
                 new_sequence.append(item)
                 temp_set.add(tuple(new_sequence))
         answer_set = temp_set
@@ -32,6 +32,7 @@ def score(hand):
 
     Returns an integer score 
     """
+    #based this off of max_repeats(seq)
     return max([points * hand.count(points) for points in set(sorted(hand))])
 
 def expected_value(held_dice, num_die_sides, num_free_dice):
@@ -44,13 +45,17 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
     num_free_dice: number of dice to be rolled
 
     Returns a floating point expected value
+    
+    - Cycle through the generated rolls
+    - Pass them to a new list
+    - Use sum to total all the values
+    - Return expected value by dividing the sum by the length (avg)
     """
     total_rolls = gen_all_sequences([num + 1 for num in range(num_die_sides)], num_free_dice)
     new_rolls = [] 
     for roll in total_rolls:
         new_rolls.append(roll + held_dice)
     results = [score(die) for die in new_rolls]
-    
     return sum(results) / float(len(results))
 
 def gen_all_holds(hand):
@@ -62,11 +67,11 @@ def gen_all_holds(hand):
     Returns a set of tuples, where each tuple is dice to hold
     """
     all_holds = set([()])
-    for dummy_idx in range(len(hand)):
+    for dummy_i in range(len(hand)):
         temp_set = set()
         for item in all_holds:
             new_sequence = list(item)
-            new_sequence.append(hand[dummy_idx])
+            new_sequence.append(hand[dummy_i])
             temp_set.add(tuple(new_sequence))
         all_holds = all_holds.union(temp_set)
     return all_holds
@@ -81,12 +86,18 @@ def strategy(hand, num_die_sides):
 
     Returns a tuple where the first element is the expected score and
     the second element is a tuple of the dice to hold
+    
+    - Generate all the available holds
+    - Iterate through the holds
+    - Pass the dice that I'm holding to the expected_value to get the score value
+    - Pass the expected_value to the result dictionary
+    - Cycle through to get the maximum/best value
     """
     all_holds = gen_all_holds(hand)
     results = dict()
     for hold in all_holds:
-        num_free_dice = len(hand) - len(hold)
-        e_val = expected_value(hold, num_die_sides, num_free_dice)
+        free_dice = len(hand) - len(hold)
+        e_val = expected_value(hold, num_die_sides, free_dice)
         results[e_val] = hold
     max_value = max([value for value in results])
     return (max_value, results[max_value])
@@ -100,7 +111,7 @@ def run_example():
     hand_score, hold = strategy(hand, num_die_sides)
     print "Best strategy for hand", hand, "is to hold", hold, "with expected score", hand_score
         
-# run_example()
+#run_example()
 
 #import poc_holds_testsuite
 #poc_holds_testsuite.run_suite(gen_all_holds)
