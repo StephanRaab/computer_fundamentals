@@ -58,7 +58,8 @@ def build_plot(plot_size, plot_function, plot_type = STANDARD):
 
 ###############################################
 # plottting code
-plot_type = STANDARD
+# plot_type = STANDARD
+plot_type = LOGLOG
 plot_size = 40
 
 # Pass name of mystery function in as a parameter
