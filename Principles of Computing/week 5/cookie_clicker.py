@@ -11,21 +11,24 @@ codeskulptor.set_timeout(20)
 import poc_clicker_provided as provided
 
 # Constants
-SIM_TIME = 10000000000.0
+#SIM_TIME = 10000000000.0
+SIM_TIME = 1000.0
 
 class ClickerState:
     """
     Simple class to keep track of the game state.
     """
-    
     def __init__(self):
-        pass
+        self.total_cookies = 0.0
+        self.current_cookies = 0.0
+        self.current_time = 1.0
+        self.current_cps = 1.0
         
     def __str__(self):
         """
         Return human readable state
         """
-        return "not yet implemented"
+        return "Time: " + str(self.current_time) + " Current Cookies: " + str(self.current_cookies) + " Total Cookies: " + str(self.total_cookies)
         
     def get_cookies(self):
         """
@@ -34,7 +37,7 @@ class ClickerState:
         
         Should return a float
         """
-        return 0.0
+        return self.current_cookies
     
     def get_cps(self):
         """
@@ -42,7 +45,7 @@ class ClickerState:
 
         Should return a float
         """
-        return 0.0
+        return self.current_cps
     
     def get_time(self):
         """
@@ -50,7 +53,7 @@ class ClickerState:
 
         Should return a float
         """
-        return 0.0
+        return self.current_time
     
     def get_history(self):
         """
@@ -64,7 +67,8 @@ class ClickerState:
         Should return a copy of any internal data structures,
         so that they will not be modified outside of the class.
         """
-        return []
+#        return provided.clone([get_time(), build_items(),get_cost() , self.total_cookies])
+        pass
 
     def time_until(self, cookies):
         """
@@ -73,7 +77,15 @@ class ClickerState:
 
         Should return a float with no fractional part
         """
-        return 0.0
+        time_left = 0.0
+        start_cookies = self.current_cookies
+        
+        if start_cookies < cookies:
+            time_left = (cookies - start_cookies) / self.get_cps()
+        else:
+            return time_left
+        
+        return time_left
     
     def wait(self, time):
         """
@@ -81,7 +93,14 @@ class ClickerState:
 
         Should do nothing if time <= 0.0
         """
-        pass
+        start_time = self.current_time
+        if start_time > 0.0:
+            while self.current_time < start_time + time:
+                #increase time, current_cookies total_cookies, 
+                self.current_time += 1
+                self.current_cookies += self.get_cps()
+                self.total_cookies += self.get_cps()
+            print self.current_time, self.current_cookies, self.total_cookies
     
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -90,8 +109,14 @@ class ClickerState:
         Should do nothing if you cannot afford the item
         """
         pass
-   
-    
+
+#obj = ClickerState()
+#print obj.get_time()
+#print obj.wait(45.0)
+#print obj.buy_item('item', 1.0, 3.5)
+#print obj.time_until(49.0)
+#expected 2.0 but received 0.0    
+
 def simulate_clicker(build_info, duration, strategy):
     """
     Function to run a Cookie Clicker game for the given
@@ -171,5 +196,3 @@ def run():
     # run_strategy("Best", SIM_TIME, strategy_best)
     
 run()
-    
-
