@@ -12,8 +12,8 @@ codeskulptor.set_timeout(20)
 import poc_clicker_provided as provided
 
 # Constants
-#SIM_TIME = 10000000000.0
-SIM_TIME = 1000.0
+SIM_TIME = 10000000000.0
+#SIM_TIME = 1000.0
 
 class ClickerState:
     """
@@ -111,7 +111,7 @@ class ClickerState:
         """
         #adjust the current number of cookies, the CPS
         #add an entry into the history.
-        if cost < self._current_cookies:
+        if cost <= self._current_cookies:
             self._current_cookies -= cost
             self._current_cps += additional_cps
             self._history.append((self._current_time, item_name, cost, self._total_cookies))
@@ -132,7 +132,7 @@ def simulate_clicker(build_info, duration, strategy):
     build_copy = build_info.clone()
     obj = ClickerState()
     
-    while obj.get_time() < duration:
+    while obj.get_time() <= duration:
         time = obj.get_time()
         item = strategy(obj.get_cookies(), obj.get_cps(), obj.get_history(), duration - time, build_copy)
         if item == None:
@@ -212,8 +212,17 @@ def strategy_best(cookies, cps, history, time_left, build_info):
     """
     The best strategy that you are able to implement.
     """
-    return None
-        
+    top_ratio = float('inf')
+    best_choice = None
+    for item in build_info.build_items():
+        cost = build_info.get_cost(item)
+        item_cps = build_info.get_cps(item)
+        ratio = cost / item_cps
+        if ratio < top_ratio:
+            top_ratio = ratio
+            best_choice = item
+    return best_choice
+    
 def run_strategy(strategy_name, time, strategy):
     """
     Run a simulation for the given time with one strategy.
