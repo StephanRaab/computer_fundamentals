@@ -134,7 +134,7 @@ def simulate_clicker(build_info, duration, strategy):
     
     while obj.get_time() < duration:
         time = obj.get_time()
-        item = strategy(obj.get_cookies(), obj.get_cps(), obj.get_history(), duration - time, copy_build)
+        item = strategy(obj.get_cookies(), obj.get_cps(), obj.get_history(), duration - time, build_copy)
         if item == None:
             break
         price = build_copy.get_cost(item)
@@ -146,7 +146,7 @@ def simulate_clicker(build_info, duration, strategy):
             build_copy.update_item(item)
         elif time < duration and time_to_wait + time > duration:
             time_left = duration - time           
-           obj.wait(time_left)
+            obj.wait(time_left)
         elif time == duration and time_to_wait + time > duration:
             break
     
@@ -188,7 +188,15 @@ def strategy_expensive(cookies, cps, history, time_left, build_info):
     """
     Always buy the most expensive item you can afford in the time left.
     """
-    return None
+    expensive = 0.0
+    expensive_choice = None
+    cookie_money = cookies + (cps * time_left)
+    for item in build_info.build_items():
+        item_cost = build_info.get_cost(item)
+        if item_cost > expensive and item_cost <= cookie_money:
+            expensive = item_cost
+            expensive_choice = item
+    return expensive_choice
 
 def strategy_best(cookies, cps, history, time_left, build_info):
     """
