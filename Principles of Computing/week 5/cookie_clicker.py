@@ -182,7 +182,17 @@ def strategy_cheap(cookies, cps, history, time_left, build_info):
     """
     Always buy the cheapest item you can afford in the time left.
     """
-    return None
+    cheap = float("inf")
+    cheap_choice = None
+    for item in build_info.build_items():
+        item_cost = build_info.get_cost(item)
+        if item_cost <  cheap:
+            cheap = item_cost
+            cheap_choice = item
+    if (cookies + cps * time_left) < cheap:
+            return None
+    else:
+        return cheap_choice
 
 def strategy_expensive(cookies, cps, history, time_left, build_info):
     """
