@@ -74,7 +74,7 @@ class ClickerState:
         Should return a copy of any internal data structures,
         so that they will not be modified outside of the class.
         """
-        return self.history        
+        return list(self.history)
 
     def time_until(self, cookies):
         """
@@ -96,37 +96,33 @@ class ClickerState:
     def wait(self, time):
         """
         Wait for given amount of time and update state
-
         Should do nothing if time <= 0.0
         """
         start_time = self.current_time
-#        if start_time > 0.0:
-        while self.current_time < start_time + time:
+        if time > 0.0:
             #increase time, current_cookies total_cookies, 
-            self.current_time += 1
-            self.current_cookies += self.get_cps()
-            self.total_cookies += self.get_cps()
-        print self.current_time, self.current_cookies, self.total_cookies
+            self.current_time += time
+            self.current_cookies += self.get_cps() * time
+            self.total_cookies += self.get_cps() * time
     
     def buy_item(self, item_name, cost, additional_cps):
         """
         Buy an item and update state
-
         Should do nothing if you cannot afford the item
         """
+        #adjust the current number of cookies, the CPS
+        #add an entry into the history.
         if cost < self.current_cookies:
             self.current_cookies -= cost
             self.current_cps += additional_cps
-            self.history.append((self.current_time, item_name, cost, self.total_cookies ))
-        else:
-            return
+            self.history.append((self.current_time, item_name, cost, self.total_cookies))
         
 #obj = ClickerState()
 #print "get_time: ", obj.get_time()
 #print "wait: ", obj.wait(45.0)
 #print "buy: ", obj.buy_item('item', 1.0, 3.5)
 #print "time_until: ", obj.time_until(49.0)
-#expected 2.0 but received 0.0    
+#print "history: ", obj.get_history()
 
 def simulate_clicker(build_info, duration, strategy):
     """
