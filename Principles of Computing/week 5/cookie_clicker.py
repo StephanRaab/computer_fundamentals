@@ -20,21 +20,21 @@ class ClickerState:
     Simple class to keep track of the game state.
     """
     def __init__(self):
-        self.total_cookies = 0.0
-        self.current_cookies = 0.0
-        self.current_time = 0.0
-        self.current_cps = 1.0
-        self.history = [(0.0, None, 0.0, 0.0)]
+        self._total_cookies = 0.0
+        self._current_cookies = 0.0
+        self._current_time = 0.0
+        self._current_cps = 1.0
+        self._history = [(0.0, None, 0.0, 0.0)]
         
     def __str__(self):
         """
         Return human readable state
         """
         string = ""
-        string += "Time: " + str(self.current_time)
-        string += " Current Cookies: " + str(self.current_cookies)
-        string += " CPS: " + str(self.current_cps)
-        string += " Total Cookies: " + str(self.total_cookies)
+        string += "Time: " + str(self._current_time)
+        string += " Current Cookies: " + str(self._current_cookies)
+        string += " CPS: " + str(self._current_cps)
+        string += " Total Cookies: " + str(self._total_cookies)
         return string
         
     def get_cookies(self):
@@ -44,7 +44,7 @@ class ClickerState:
         
         Should return a float
         """
-        return self.current_cookies
+        return self._current_cookies
     
     def get_cps(self):
         """
@@ -52,7 +52,7 @@ class ClickerState:
 
         Should return a float
         """
-        return self.current_cps
+        return self._current_cps
     
     def get_time(self):
         """
@@ -60,7 +60,7 @@ class ClickerState:
 
         Should return a float
         """
-        return self.current_time
+        return self._current_time
     
     def get_history(self):
         """
@@ -74,7 +74,7 @@ class ClickerState:
         Should return a copy of any internal data structures,
         so that they will not be modified outside of the class.
         """
-        return list(self.history)
+        return list(self._history)
 
     def time_until(self, cookies):
         """
@@ -84,7 +84,7 @@ class ClickerState:
         Should return a float with no fractional part
         """
         time_left = 0.0
-        start_cookies = self.current_cookies
+        start_cookies = self._current_cookies
         
         if start_cookies < cookies:
             time_left = math.ceil((cookies - start_cookies) / self.get_cps())
@@ -98,12 +98,11 @@ class ClickerState:
         Wait for given amount of time and update state
         Should do nothing if time <= 0.0
         """
-        start_time = self.current_time
         if time > 0.0:
             #increase time, current_cookies total_cookies, 
-            self.current_time += time
-            self.current_cookies += self.get_cps() * time
-            self.total_cookies += self.get_cps() * time
+            self._current_time += time
+            self._current_cookies += self.get_cps() * time
+            self._total_cookies += self.get_cps() * time
     
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -112,10 +111,10 @@ class ClickerState:
         """
         #adjust the current number of cookies, the CPS
         #add an entry into the history.
-        if cost < self.current_cookies:
-            self.current_cookies -= cost
-            self.current_cps += additional_cps
-            self.history.append((self.current_time, item_name, cost, self.total_cookies))
+        if cost < self._current_cookies:
+            self._current_cookies -= cost
+            self._current_cps += additional_cps
+            self._history.append((self._current_time, item_name, cost, self._total_cookies))
         
 #obj = ClickerState()
 #print "get_time: ", obj.get_time()
