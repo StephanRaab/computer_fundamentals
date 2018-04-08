@@ -101,8 +101,49 @@ class Apocalypse(poc_grid.Grid):
         Distance at member of entity_list is zero
         Shortest paths avoid obstacles and use four-way distances
         """
+        
+#        Create a new grid 𝚟𝚒𝚜𝚒𝚝𝚎𝚍 of the same size as the original grid
+#        and initialize its cells to be empty.
         visited = poc_grid.Grid(self._grid_height, self._grid_width)
+        
+#    	Create a 2D list 𝚍𝚒𝚜𝚝𝚊𝚗𝚌𝚎_𝚏𝚒𝚎𝚕𝚍 of the same size as the original
+#        grid and initialize each of its entries to be the product of the
+#        height times the width of the grid.
+#        (This value is larger than any possible distance.)
+        distance_field = [[self._grid_height * self._grid_width for dummy_column in range(self._grid_width)]
+                           for dummy_row in range(self._grid.height)]
     
+#    	Create a queue 𝚋𝚘𝚞𝚗𝚍𝚊𝚛𝚢 that is a copy of either the zombie list or the human list.
+#        For cells in the queue, initialize 𝚟𝚒𝚜𝚒𝚝𝚎𝚍 to be 𝙵𝚄𝙻𝙻 and 𝚍𝚒𝚜𝚝𝚊𝚗𝚌𝚎_𝚏𝚒𝚎𝚕𝚍 to be zero.
+#        We recommend that you use our 𝚀𝚞𝚎𝚞𝚎 class.
+
+        boundary = poc.queue.Queue()
+    
+        if entity_type == ZOMBIE:
+            for zombie in self.zombies():
+                boundary.enqueue(zombie)
+        if entitiy_type == HUMAN:
+            for human in self.humans():
+                boundary.enqueue(human)
+                
+#        while boundary is not empty:
+        while len(boundary) > 0:
+#           current_cell  ←  dequeue boundary
+            current_cell = boundary.dequeue()
+    #        for all neighbor_cell of current_cell:
+            neighbors = visited.four_neighbors(current_cell[0], current_cell[1])
+            for neighbor_cell in neighbors: 
+    #            if neighbor_cell is not in visited:
+                if neighbor_cell.is_empty(neighbor_cell[0], neighbor_cell[1]) and self.is_empty(neighbor[0], neighbor[1]):
+    #                add neighbor_cell to visited
+                    visited.set_full(neighbor_cell[0], neighbor_cell[1])
+    #                enqueue neighbor_cell onto boundary
+                    boundary.enqueue(neighbor_cell)
+                    distance_field[neighbor_cell[0]][neighbor_cell[1]] = \
+                        distance_field[current_cell[0]][current_cell[1]] + 1
+        
+        return distance_field
+
     def move_humans(self, zombie_distance_field):
         """
         Function that moves humans away from zombies, diagonal moves
