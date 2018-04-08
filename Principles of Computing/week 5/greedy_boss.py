@@ -12,7 +12,7 @@ LOGLOG = False
 # constants for simulation
 INITIAL_SALARY = 100
 SALARY_INCREMENT = 100
-INITIAL_BRIBE_COST = 1000
+INITIAL_BRIBE_COST = 1000   
 
 def greedy_boss(days_in_simulation, bribe_cost_increment, plot_type = STANDARD):
     """
@@ -31,7 +31,8 @@ def greedy_boss(days_in_simulation, bribe_cost_increment, plot_type = STANDARD):
     days_vs_earnings.append((current_day, total_salary))
 
     # Each iteration of this while loop simulates one bribe
-    while current_day <= days_in_simulation:        
+    while current_day <= days_in_simulation:
+        
         # use plot_type to control whether regular or log/log plot
         plot_type = LOGLOG
         
@@ -39,7 +40,7 @@ def greedy_boss(days_in_simulation, bribe_cost_increment, plot_type = STANDARD):
         total_salary += daily_salary
         
         # check whether we have enough money to bribe without waiting
-        if money >= bribe_cost:            
+        if money >= bribe_cost:
             daily_salary += 100
             money -= bribe_cost
             bribe_cost += bribe_cost_increment
