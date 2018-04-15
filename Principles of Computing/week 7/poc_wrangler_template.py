@@ -1,5 +1,5 @@
 """
-Student code for Word Wrangler game
+Word Wrangler game
 """
 
 import urllib2
@@ -67,7 +67,7 @@ def merge(list1, list2):
 
     This function can be iterative.
     """   
-        merge_list = []
+    merge_list = []
     
     list1_count = 0
     list2_count = 0
@@ -97,7 +97,11 @@ def merge_sort(list1):
 
     This function should be recursive.
     """
-    return []
+    middle = len(list1) / 2
+    if middle:
+        return merge(merge_sort(list1[:middle]), merge_sort(list1[middle:]))
+    else:
+        return list1
 
 # Function to generate all strings for the word wrangler game
 
@@ -111,7 +115,15 @@ def gen_all_strings(word):
 
     This function should be recursive.
     """
-    return []
+    if not word:
+        return [""]
+    all_strings_list = gen_all_strings(word[1:])
+    initial_word = word[0]
+    new_strings = [gen_word[:pos] + initial_word + gen_word[pos:] 
+                   for gen_word in all_strings_list 
+                   for pos in range(len(gen_word) + 1)]
+    all_strings_list.extend(new_strings)
+    return all_strings_list
 
 # Function to load words from a file
 
@@ -121,7 +133,9 @@ def load_words(filename):
 
     Returns a list of strings.
     """
-    return []
+    net_file = urllib2.urlopen(codeskulptor.file2url(filename))
+    return net_file.read().split('\n')
+#    return []
 
 def run():
     """
@@ -134,7 +148,4 @@ def run():
     provided.run_game(wrangler)
 
 # Uncomment when you are ready to try the game
-# run()
-
-    
-    
+run()
