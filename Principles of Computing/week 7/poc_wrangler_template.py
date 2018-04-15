@@ -20,13 +20,13 @@ def remove_duplicates(list1):
 
     This function can be iterative.
     """
-    new_list = []
+    no_duplicate_list = []
     init_word = None
     for word in list1:
         if word != init_word:
             init_word = word
-            new_list.append(word)
-    return new_list
+            no_duplicate_list.append(word)
+    return no_duplicate_list
 
 def intersect(list1, list2):
     """
