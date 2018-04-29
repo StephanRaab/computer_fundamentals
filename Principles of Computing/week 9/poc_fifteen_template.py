@@ -131,17 +131,26 @@ class Puzzle:
         at the given position in the bottom rows of the puzzle (target_row > 1)
         Returns a boolean
         """
-        # replace with your code
-        return False
+#       Tile zero is positioned at (i,j).
+#       All tiles in rows i+1 or below are positioned at their solved location.
+#       All tiles in row i to the right of position (i,j) are positioned at their solved location.
 
-    def solve_interior_tile(self, target_row, target_col):
-        """
-        Place correct tile at target position
-        Updates puzzle and returns a move string
-        """
-        # replace with your code
-        return ""
-
+        if self._grid[target_row][target_col] == 0:
+            if target_col < self._width - 1:
+                for col in range(target_col + 1, self._width):
+                    if self._grid[target_row][col] != ((target_row + 1) * self._width) - (self._width - col):
+                        return False
+            if target_row < self._height - 1:
+                for col2 in range(self._width):
+                    if self._grid[target_row + 1][col2] != ((target_row + 2) * self._width) - (self._width - col2):
+                        return False
+                    else:
+                        return True
+            else:
+                return True
+        else:
+            return False
+        
     def solve_col0_tile(self, target_row):
         """
         Solve tile in column zero on specified row (> 1)
@@ -149,6 +158,15 @@ class Puzzle:
         """
         # replace with your code
         return ""
+    
+    def solve_interior_tile(self, target_row, target_col):
+        """
+        Place correct tile at target position
+        Updates puzzle and returns a move string
+        """
+        return ""
+
+
 
     #############################################################
     # Phase two methods
@@ -205,6 +223,23 @@ class Puzzle:
         """
         # replace with your code
         return ""
-
+    
 # Start interactive simulation
 poc_fifteen_gui.FifteenGUI(Puzzle(4, 4))
+
+obj = Puzzle(3, 3, [[0, 1, 2], [3, 4, 5], [6, 7, 8]])
+print "Expecting True, received ", obj.row0_invariant(0)
+obj = Puzzle(3, 3, [[4, 3, 2], [1, 0, 5], [6, 7, 8]])
+print "Expecting True, received ", obj.row1_invariant(1)
+obj = Puzzle(3, 3, [[4, 3, 2], [1, 0, 5], [6, 7, 8]])#, obj.solve_2x2() returned incorrect move string ''
+print obj.solve_2x2()
+obj = Puzzle(3, 3, [[3, 2, 1], [6, 5, 4], [0, 7, 8]])#, obj.solve_col0_tile(2) returned incorrect move string ''
+print obj.solve_col0_tile(2)
+obj = Puzzle(3, 3, [[8, 7, 6], [5, 4, 3], [2, 1, 0]])#, obj.solve_interior_tile(2, 2) returned incorrect move string (Exception: AssertionError) "" at line 157, in solve_interior_tile
+print obj.solve_interior_tile(2, 2)
+obj = Puzzle(3, 3, [[8, 7, 6], [5, 4, 3], [2, 1, 0]])#, obj.solve_puzzle() returned incorrect move string ''
+print obj.solve_puzzle()
+obj = Puzzle(3, 3, [[4, 1, 0], [2, 3, 5], [6, 7, 8]])#, obj.solve_row0_tile(2) returned incorrect move string ''
+print obj.solve_row0_tile(2)
+obj = Puzzle(3, 3, [[2, 5, 4], [1, 3, 0], [6, 7, 8]])#, obj.solve_row1_tile(2) returned incorrect move string ''
+print obj.solve_row1_tile(2)

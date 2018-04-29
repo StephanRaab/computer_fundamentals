@@ -4,7 +4,6 @@ Examples of invariants
 
 import math
 
-
 # Invariants for loops
 
 def iterative_factorial(num):
@@ -21,9 +20,6 @@ def iterative_factorial(num):
     # note that index == num so answer = math.factorial(num)
     return answer
 
-    
-    
-    
 def merge(list1, list2):
     """
     Merge two sorted lists.
@@ -58,12 +54,8 @@ def merge(list1, list2):
     assert answer == sorted(answer)
     return answer
 
-
-
-    
 ############################################
 # Invariants for recursive functions
-
 
 def recursive_factorial(num):
     """
@@ -78,8 +70,6 @@ def recursive_factorial(num):
         answer = num * rec_part
         assert answer == math.factorial(num)
         return answer
-    
-
 
 def merge_sort(list1):
     """
@@ -102,9 +92,6 @@ def merge_sort(list1):
     answer =  merge(list_low, list_high)
     assert answer == sorted(answer)
     return answer
-
-
-    
     
 ########################################################
 # Class invariant
@@ -182,8 +169,7 @@ class WildFire(poc_grid.Grid):
 
         # Check class invariant after update  
         assert self.boundary_invariant() 
-        
-        
+
     def boundary_invariant(self):
         """
         Class invariant that checks whether every cell on the 
@@ -194,8 +180,6 @@ class WildFire(poc_grid.Grid):
                 print "Cell " + str(cell) + " in fire boundary is empty."
                 return False
         return True
-
-        
 
 def run_examples():
     """
