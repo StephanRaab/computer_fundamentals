@@ -152,17 +152,16 @@ class Puzzle:
     def final_0_pos(self, zero_pos, end_zero_pos):
         """
         Returns move to place 0 in final position to satisfy invariants
-        """
-        print end_zero_pos
-        
-        v_dist = abs(zero_pos[0] - end_zero_pos[0])
-        h_dist = abs(zero_pos[1] - end_zero_pos[1])
+        """        
+        vert_dist = abs(zero_pos[0] - end_zero_pos[0])
+        horiz_dist = abs(zero_pos[1] - end_zero_pos[1])
         move = ""
         total_moves = ""
         done = False
+
         while not done:
             if zero_pos[0] > end_zero_pos[0]:
-                for dummy_move in range(v_dist):
+                for dummy_move in range(vert_dist):
                     move += "u"
                 total_moves += move
                 self.update_puzzle(move)
@@ -177,14 +176,14 @@ class Puzzle:
                 zero_pos = self.current_position(0, 0)
             elif zero_pos[1] != end_zero_pos[1]:
                 if zero_pos[1] > end_zero_pos[1]:
-                    for dummy_move in range(h_dist):
+                    for dummy_move in range(horiz_dist):
                         move += "l"
                     total_moves += move
                     self.update_puzzle(move)
                     move = ""
                     zero_pos = self.current_position(0, 0)
                 elif zero_pos[1] < end_zero_pos[1]:
-                    for dummy_move in range(h_dist):
+                    for dummy_move in range(horiz_dist):
                         move += "r"
                     total_moves += move
                     self.update_puzzle(move)
@@ -231,10 +230,9 @@ class Puzzle:
             location = self.current_position(target_row, target_col)
             zero_pos = self.current_position(0, 0)
             
-            # x in correct col
             if location[1] == end_loc[1] and location[0] != end_loc[0]:
-                v_dist = abs(zero_pos[0] - location[0])
-                for dummy_move in range(v_dist):
+                vert_dist = abs(zero_pos[0] - location[0])
+                for dummy_move in range(vert_dist):
                     move += "u"
                 total_moves += update(self, move)
                 move = ""
@@ -248,7 +246,6 @@ class Puzzle:
                 location = self.current_position(target_row, target_col)
                 zero_pos = self.current_position(0, 0)
                     
-                # reposition 0 under x
                 if location[0] != end_loc[0]:
                     if location[0] > end_loc[0]:
                         if zero_pos[0] == location[0]:
@@ -269,11 +266,10 @@ class Puzzle:
                     location = self.current_position(target_row, target_col)
                     zero_pos = self.current_position(0, 0)
                         
-            # if x not in correct col    
             elif location[1] != end_loc[1]:
                 if location[0] < zero_pos[0]:
-                    v_dist = abs(zero_pos[0] - location[0])
-                    for dummy_move in range(v_dist):
+                    vert_dist = abs(zero_pos[0] - location[0])
+                    for dummy_move in range(vert_dist):
                         move += "u"
                     total_moves += update(self, move)
                     move = ""
@@ -291,7 +287,6 @@ class Puzzle:
                 location = self.current_position(target_row, target_col)
                 zero_pos = self.current_position(0, 0)
                 
-                # if col is wrong
                 if location[1] < zero_pos[1] and location[1] != end_loc[1]:
                     move += "ul"
                     if location[1] != end_loc[1]:
@@ -301,7 +296,6 @@ class Puzzle:
                     if location[1] != end_loc[1]:
                         move += "rd"
                 
-                # if top row
                 if location[0] == 0:
                     move = move.replace("d", "u")
                     move = move.replace("u", "d", 1)
@@ -320,7 +314,6 @@ class Puzzle:
             location = self.current_position(target_row, target_col)
             zero_pos = self.current_position(0, 0)
         
-        # getting 0 into final position to satisfy invariants   
         if location == (end_loc) and zero_pos != end_zero_pos:
             total_moves += self.final_0_pos(zero_pos, end_zero_pos) 
         
@@ -397,21 +390,21 @@ class Puzzle:
             return False
         
         portion = 1
-        for idx in range(2):
-            right = self._grid[idx]
+        for index in range(2):
+            right = self._grid[index]
             col = len(right[target_col + portion:])
             for val in right[target_col + portion:]:
-                tile = self._width + (idx * self._width) - col
+                tile = self._width + (index * self._width) - col
                 if val != tile:
                     return False
                 col -= 1
             portion -= 1
         
-        for idx in range(2, self._height):
-            row = self._grid[idx]
+        for index in range(2, self._height):
+            row = self._grid[index]
             col = self._width
             for val in row:
-                tile = self._width + (idx * self._width) - col
+                tile = self._width + (index * self._width) - col
                 if val != tile:
                     return False
                 col -= 1
@@ -427,20 +420,20 @@ class Puzzle:
         if self._grid[1][target_col] != 0:
             return False
         
-        for idx in range(2):
-            right = self._grid[idx]     
+        for index in range(2):
+            right = self._grid[index]     
             col = len(right[target_col + 1:])
             for val in right[target_col + 1:]:
-                tile = self._width + (idx * self._width) - col
+                tile = self._width + (index * self._width) - col
                 if val != tile:
                     return False
                 col -= 1
                 
-        for idx in range(2, self._height):
-            row = self._grid[idx]
+        for index in range(2, self._height):
+            row = self._grid[index]
             col = self._width
             for val in row:
-                tile = self._width + (idx * self._width) - col
+                tile = self._width + (index * self._width) - col
                 if val != tile:
                     return False
                 col -= 1
